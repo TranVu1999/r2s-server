@@ -22,4 +22,12 @@ router.post('/register', authController.register)
 // @access Public
 router.post('/login', authController.login)
 
+
+// @route POST api/auth/login
+// @desc login for account
+// @access Public
+router.post('/', (req, res) => {
+    res.send("ok")
+})
+
 module.exports = router;
