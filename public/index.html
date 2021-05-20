@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Title Page</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <script src='./js/qrcode.js' type="text/javascript"></script>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        
+    <style>
+        body{
+            background-color: #1FB18A;
+            font-family: "Roboto"
+        }
+        .texttitle{
+            margin-top: 1.5cm;
+            font-size: 80px;
+            font-weight:900;
+            color:white;
+        }
+        .form-control{
+            margin:20px auto;
+            height: 50px;
+            width: 700px;
+        }
+        .btn{
+            display: block;
+            max-width: 300px;
+            margin: auto;
+            font-size: 14px;
+        }
+        #qrcode{
+            width:150px;
+            height:150px; 
+            margin: 15px auto;
+        }
+        a{
+            text-decoration: none;
+            color:white;
+        }
+       
+    </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <h1 class="text-center texttitle">SHORTING YOUR URL?</h1>
+            <h2 class="text-center">Sure, I will do that at a mouse click.</h2>
+            
+            <input class=" form-control text-center" id="text">
+            <button type="button" class="btn btn-success" id="create">Shorten</button>
+            <input class=" form-control text-center" id="result" readonly>
+            
+            
+            <div id="qrcode" ></div>
+            <p class="text-center"> 
+                Made by <a href="https://www.facebook.com/hoangthuc701">Hoang Thuc</a>
+            </p>
+
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                width : 150,
+                height : 150
+            });
+            
+            function makeCode () {		
+                var elResult = document.getElementById("result");
+                qrcode.makeCode(elResult.value);
+            }
+            $('#create').click(function(){
+                var elText = document.getElementById("text");
+                if (!elText.value) {
+                    alert("Please input a url");
+                    return;
+                }
+                var host = window.location.hostname;
+                var port = window.location.port;
+                var url = `https://${host}:${port}/create`;
+                //alert(url);
+                fetch(url,{
+                    method:"POST",
+                    headers:{
+                        Accept:"application/json",
+                        'Content-Type':'application/json',
+                    },
+                    body:JSON.stringify({
+                        "longUrl": elText.value
+                    })
+                })
+                .then((respone)=>{
+                    return respone.json();
+                })
+                .then((data)=>{
+                    if (data.code==200){
+                        
+                        var elResult = document.getElementById("result");
+                        elResult.value = data.shortUrl;
+                        makeCode();
+                    }
+                    else{
+                        alert(data.error);
+                    }
+                })
+            })
+            </script>
+        
+    </body>
+</html>
