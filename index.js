@@ -28,5 +28,5 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 
-const POST = process.env.POST || 5000;
+const POST = process.env.HOST || 5000;
 app.listen(POST, () => console.log("Server started on port 5000"))
