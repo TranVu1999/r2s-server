@@ -24,7 +24,7 @@ router.post('/login', authController.login)
 // @route POST api/auth/login
 // @desc login for account
 // @access Public
-router.post('/', (req, res) => {
+router.get('/', (req, res) => {
     res.send("ok")
 })
 

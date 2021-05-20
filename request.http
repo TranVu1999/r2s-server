@@ -2,6 +2,18 @@
 
 # Register for admin
 ###
+POST https://androidserverr2s.herokuapp.com/admin-register
+Content-Type: application/json
+
+{
+    "username": "tranvudpqn123",
+    "name": "Trần Gia Kinh",
+    "password": "Admin123@",
+    "email": "tranleanhvu10011999@gmail.com"
+}
+
+# Register for admin
+###
 POST http://localhost:5000/api/auth/admin-register
 Content-Type: application/json
 
