@@ -1,0 +1,40 @@
+// ================== AUTH ==================
+
+# Register for admin
+###
+POST http://localhost:5000/api/auth/admin-register
+Content-Type: application/json
+
+{
+    "username": "tranvudpqn123",
+    "name": "Trần Gia Kinh",
+    "password": "Admin123@",
+    "email": "tranleanhvu10011999@gmail.com"
+}
+
+
+# Register for trainee
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "toandpqn123",
+    "name": "Phạm Đức Huy",
+    "password": "Admin123@",
+    "email": "huyph2599@gmail.com",
+    "phone": "0377670509",
+    "address": "01 Võ Văn Ngân, phường Bình Thọ, quận Thủ Đức, TP HCM",
+    "typeUser": "trainer"
+}
+
+# Login
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "toandpqn123",
+    "password": "Admin123@",
+    "typeUser": "trainer"
+}
