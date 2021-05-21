@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt-nodejs')
 const Admin = require('./../models/Admin')
 const Trainee = require('./../models/Trainee')
 const Trainer = require('./../models/Trainer')
