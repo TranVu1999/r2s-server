@@ -6,7 +6,7 @@ POST http://localhost:8080/api/auth/admin-register
 Content-Type: application/json
 
 {
-    "username": "tranvudpqn123",
+    "username": "tranvudpqn1234",
     "name": "Trần Gia Kinh",
     "password": "Admin123@",
     "email": "tranleanhvu10011999@gmail.com"
@@ -19,7 +19,7 @@ POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "huydpqn123",
+    "username": "huydpqn1234",
     "name": "Phạm Đức Huy",
     "password": "Admin123@",
     "email": "huyph2599@gmail.com",

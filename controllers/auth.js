@@ -36,7 +36,8 @@ module.exports = {
                     })
                 }
 
-                const hashedPassword = bcrypt.hashSync(password, 8)
+                var salt = bcrypt.genSaltSync(10)
+                const hashedPassword = bcrypt.hashSync(password, salt)
                 const newAccount = new Admin({
                     UserName: username,
                     Password: hashedPassword,
@@ -110,7 +111,8 @@ module.exports = {
                         })
                     }
 
-                    const hashedPassword = bcrypt.hashSync(password, 8)
+                    var salt = bcrypt.genSaltSync(10)
+                    const hashedPassword = bcrypt.hashSync(password, salt)
                     const newTrainee = new Trainee({
                         UserName: username,
                         Password: hashedPassword,
@@ -142,7 +144,8 @@ module.exports = {
                         })
                     }
 
-                    const hashedPassword = bcrypt.hashSync(password, 8)
+                    var salt = bcrypt.genSaltSync(10)
+                    const hashedPassword = bcrypt.hashSync(password, salt)
                     const newTrainer = new Trainer({
                         UserName: username,
                         Password: hashedPassword,
