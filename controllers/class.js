@@ -233,7 +233,7 @@ module.exports = {
 
                 if(removeClass){
                     return showErrorClient(res, 200, {
-                        isSuccess: false,
+                        isSuccess: true,
                         message: "Your action is done successfully",
                         class: removeClass
                     })
