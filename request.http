@@ -6,7 +6,7 @@ POST http://localhost:8080/api/auth/admin-register
 Content-Type: application/json
 
 {
-    "username": "tranvudpqn1234",
+    "username": "tranvudpqn123",
     "name": "Trần Gia Kinh",
     "password": "Admin123@",
     "email": "tranleanhvu10011999@gmail.com"
@@ -19,13 +19,13 @@ POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "huydpqn1234",
-    "name": "Phạm Đức Huy",
+    "username": "toandpqn1234",
+    "name": "Phạm Hoàng Toán",
     "password": "Admin123@",
-    "email": "huyph2599@gmail.com",
+    "email": "toanph2599@gmail.com",
     "phone": "0377670509",
     "address": "01 Võ Văn Ngân, phường Bình Thọ, quận Thủ Đức, TP HCM",
-    "typeUser": "trainee"
+    "typeUser": "trainer"
 }
 
 # Login
@@ -34,7 +34,7 @@ POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-    "username": "toandpqn123",
+    "username": "tranvudpqn123",
     "password": "Admin123@",
-    "typeUser": "trainer"
+    "typeUser": "admin"
 }

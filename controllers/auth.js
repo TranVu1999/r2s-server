@@ -73,11 +73,48 @@ module.exports = {
 
         try {
             // check full infomation
+            if(!username || !password){
+                return res
+                .status(400)
+                .json({success: false, message: "Missing username and/or password"})
+            }
+
+            
             let account = null
+            const filter = {UserName: username}
 
             if(typeUser === "admin"){
-                account = await Admin.findOne({})
+                account = await Admin.findOne(filter)
+            }else if(typeUser === "trainer"){
+                account = await Trainer.findOne(filter)
+            }else if(typeUser === "trainee"){
+                account = await Trainee.findOne(filter)
             }
+
+            // account exists
+            if(account){
+                // Username found
+                const passwordValid = bcrypt.compareSync(password, account.Password)
+                if(!passwordValid){
+                    return res
+                    .json({success: false, message: "Incorrect username or password"})
+                }
+
+                const accessToken = jwt.sign({accountId: account._id}, process.env.ACCESS_TOKEN_SECRET)
+                return res.json({
+                    success: true, 
+                    message: "User logged successfully", 
+                    accessToken,
+                    account
+                })
+            }
+            
+            return res
+            .status(400)
+            .json({
+                success: false, 
+                message: "User is not found"
+            })
 
                 
 
@@ -85,6 +122,7 @@ module.exports = {
             showErrorSystem(res, error)
         }
     },
+
     /**
      * Sign up for trainer and trainee
     */
