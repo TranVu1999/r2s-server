@@ -10,17 +10,16 @@ const ClassSchema = new Schema({
 
     Capacity: {
         type: Number,
-        require: true
+        require: true,
+        default: 1
     },
 
     StartTime: {
-        type: Date,
-        default: Date.now
+        type: String
     },
 
     EndTime: {
-        type: Date,
-        default: Date.now
+        type: String
     },
 
     isDeleted: {
