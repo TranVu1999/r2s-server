@@ -2,19 +2,7 @@
 
 # Register for admin
 ###
-POST https://androidserverr2s.herokuapp.com/admin-register
-Content-Type: application/json
-
-{
-    "username": "tranvudpqn123",
-    "name": "Trần Gia Kinh",
-    "password": "Admin123@",
-    "email": "tranleanhvu10011999@gmail.com"
-}
-
-# Register for admin
-###
-POST http://localhost:5000/api/auth/admin-register
+POST http://localhost:8080/api/auth/admin-register
 Content-Type: application/json
 
 {
@@ -27,22 +15,22 @@ Content-Type: application/json
 
 # Register for trainee
 ###
-POST http://localhost:5000/api/auth/register
+POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "toandpqn123",
+    "username": "huydpqn123",
     "name": "Phạm Đức Huy",
     "password": "Admin123@",
     "email": "huyph2599@gmail.com",
     "phone": "0377670509",
     "address": "01 Võ Văn Ngân, phường Bình Thọ, quận Thủ Đức, TP HCM",
-    "typeUser": "trainer"
+    "typeUser": "trainee"
 }
 
 # Login
 ###
-POST http://localhost:5000/api/auth/login
+POST http://localhost:8080/api/auth/login
 Content-Type: application/json
 
 {

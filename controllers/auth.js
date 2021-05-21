@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-// const argon2 = require('argon2')
+const bcrypt = require('bcrypt')
 const Admin = require('./../models/Admin')
 const Trainee = require('./../models/Trainee')
 const Trainer = require('./../models/Trainer')
@@ -36,7 +36,7 @@ module.exports = {
                     })
                 }
 
-                const hashedPassword = password;
+                const hashedPassword = bcrypt.hashSync(password, 8)
                 const newAccount = new Admin({
                     UserName: username,
                     Password: hashedPassword,
@@ -110,7 +110,7 @@ module.exports = {
                         })
                     }
 
-                    const hashedPassword = password;
+                    const hashedPassword = bcrypt.hashSync(password, 8)
                     const newTrainee = new Trainee({
                         UserName: username,
                         Password: hashedPassword,
@@ -142,7 +142,7 @@ module.exports = {
                         })
                     }
 
-                    const hashedPassword = password;
+                    const hashedPassword = bcrypt.hashSync(password, 8)
                     const newTrainer = new Trainer({
                         UserName: username,
                         Password: hashedPassword,
