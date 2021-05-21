@@ -57,4 +57,38 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Get list topic
+     */
+    getListtopic: async function(req, res){
+        const {accountId} = req
+
+        try {
+            const account = await Admin.findById(accountId)
+
+            if(account){
+
+                const listTopic = await Topic.find()
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listTopic
+                })
+                
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get list topic"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
 }

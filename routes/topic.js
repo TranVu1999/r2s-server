@@ -11,4 +11,13 @@ const topicController = require('./../controllers/topic')
 // @access Private
 router.post('/', verifyToken, topicController.add)
 
+
+
+// ================= GET ==================
+
+// @route GET api/class
+// @desc get list topic
+// @access Private
+router.get('/', verifyToken, topicController.getListtopic)
+
 module.exports = router;
