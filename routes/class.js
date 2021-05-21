@@ -28,4 +28,13 @@ router.get('/:typeUser', verifyToken, classController.getList)
 // @access Private
 router.put('/:id', verifyToken, classController.edit)
 
+
+
+// ================= DELETE ==================
+// @route DELETE api/class
+// @desc remove class by id
+// @access Private
+router.delete('/:id', verifyToken, classController.remove)
+
+
 module.exports = router;

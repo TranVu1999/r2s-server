@@ -215,6 +215,43 @@ module.exports = {
         } catch (error) {
             showErrorSystem(res, error)
         }
+    },
+
+    /**
+     * Remove class
+     */
+    remove: async function(req, res){
+        const {id} = req.params
+        const {accountId} = req
+
+        try {
+            const account = await Admin.findById(accountId)
+
+            if(account){
+
+                const removeClass = await Class.findByIdAndUpdate(id, {isDeleted: true})
+
+                if(removeClass){
+                    return showErrorClient(res, 200, {
+                        isSuccess: false,
+                        message: "Your action is done successfully",
+                        class: removeClass
+                    })
+                }
+                
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Cannot update this class"
+            })
+            
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
     }
+
 
 }
