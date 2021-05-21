@@ -111,14 +111,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 
 
 
-// ================== TOPIC ==================
+// ================== QUESTION ==================
 
-# Add new topic
+# Add new question
 ###
-POST http://localhost:8080/api/topic
+POST http://localhost:8080/api/question
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 {
-    "TopicName": "Topic 03"
+    "QuestionContent": "Question 02",
+    "TopicId": "60a7bba427655242a834f5c7"
 }

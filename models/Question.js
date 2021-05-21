@@ -13,9 +13,9 @@ const QuestionSchema = new Schema({
         default: false
     },
 
-    Topic: {
+    TopicId: {
         type: Schema.Types.ObjectId,
-        ref: Topic
+        ref: 'Topic'
     },
 });
 
