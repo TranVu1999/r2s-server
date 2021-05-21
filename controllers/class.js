@@ -155,6 +155,66 @@ module.exports = {
         } catch (error) {
             showErrorSystem(res, error)
         }
+    },
+
+    /**
+     * Edit class
+     */
+    edit: async function(req, res){
+        const {ClassName, Capacity, StartTime, EndTime} = req.body
+        const {id} = req.params
+        const {accountId} = req
+
+        try {
+            const account = await Admin.findById(accountId)
+            
+
+            if(account){
+                // check time
+                const d = new Date()
+                const now = {
+                    date: d.getDate(), 
+                    month: d.getMonth(), 
+                    year: d.getFullYear()
+                }
+
+                let start = splitTimeString(StartTime)
+                let end = splitTimeString(EndTime)
+
+                if(start && end){
+                    if(compareTime(now, start) && compareTime(start, end) && Capacity > 0){
+                        const data = {
+                            ClassName,
+                            Capacity,
+                            StartTime,
+                            EndTime
+                        }
+                        const updateClass = await Class.findByIdAndUpdate(id, data).lean()
+        
+                        if(updateClass){
+                            return showErrorClient(res, 200, {
+                                isSuccess: true,
+                                message: "Your action is done successfully",
+                                class: {
+                                    ...updateClass,
+                                    ...data
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Cannot update this class"
+            })
+            
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
     }
 
 }

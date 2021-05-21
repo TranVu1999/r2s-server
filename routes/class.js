@@ -20,4 +20,12 @@ router.post('/', verifyToken, classController.add)
 // @access Private
 router.get('/:typeUser', verifyToken, classController.getList)
 
+
+
+// ================= PUT ==================
+// @route PUT api/class
+// @desc edit class by id
+// @access Private
+router.put('/:id', verifyToken, classController.edit)
+
 module.exports = router;
