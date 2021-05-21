@@ -114,6 +114,47 @@ module.exports = {
         } catch (error) {
             showErrorSystem(res, error)
         }
+    },
+
+
+    /**
+     * Add new class
+     */
+    getList: async function(req, res){
+        const {typeUser} = req.params
+        const {accountId} = req
+
+        try {
+            let listClass = []
+            let account = null
+            switch(typeUser){
+                case "admin":
+                    account = await Admin.findById(accountId)
+                    listClass = await Class.find({isDeleted: false})
+                    break
+                default:
+                    break
+            }
+
+
+            if(account){
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listClass
+                })
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Cannot get list class",
+            })
+            
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
     }
 
 }

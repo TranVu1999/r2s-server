@@ -11,4 +11,13 @@ const classController = require('./../controllers/class')
 // @access Private
 router.post('/', verifyToken, classController.add)
 
+
+
+// ================= GET ==================
+
+// @route GET api/class
+// @desc get list class by type user
+// @access Private
+router.get('/:typeUser', verifyToken, classController.getList)
+
 module.exports = router;
