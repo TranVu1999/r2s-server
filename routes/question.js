@@ -11,4 +11,12 @@ const questionController = require('./../controllers/question')
 // @access Private
 router.post('/', verifyToken, questionController.add)
 
+
+// ================= GET ==================
+
+// @route GET api/class
+// @desc get list question
+// @access Private
+router.get('/', verifyToken, questionController.getListQuestion)
+
 module.exports = router;

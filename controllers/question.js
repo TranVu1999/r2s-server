@@ -38,10 +38,10 @@ module.exports = {
                 })
 
                 await newQuestion.save()
-                
+
                 return showErrorClient(res, 200, {
-                    isSuccess: false,
-                    message: "Can not add this question",
+                    isSuccess: true,
+                    message: "Your action is done successfully",
                     question: newQuestion
                 }) 
             }
@@ -50,6 +50,46 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not add this question"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+    /**
+     * Get list question
+     */
+    getListQuestion: async function(req, res){
+        const {accountId} = req
+
+        try {
+            const account = await Admin.findById(accountId)
+
+            if(account){
+               
+                const listQuestion = await Question.find({isDeleted: false}).lean()
+                const listTopic = await Topic.find().lean()
+
+
+                const lengthQuestion = listQuestion.length
+                for(let i = 0; i < lengthQuestion; i++){
+                    let topic = listTopic.find(item => item._id.toString() === listQuestion[i].TopicId.toString())
+                    listQuestion[i]["TopicName"] = topic.TopicName
+                }
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listQuestion
+                }) 
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get list question"
             })
                
 
