@@ -57,5 +57,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
     "ClassName": "Class 03",
     "Capacity": 50,
     "StartTime": "22/06/2021",
-    "EndTime": "22/06/2021"
+    "EndTime": "22/06/2020"
 }
