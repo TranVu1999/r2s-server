@@ -213,4 +213,32 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Get list all account
+    */
+    getListAccount: async function(req, res){
+        
+
+        try {
+            const listAdmin = await Admin.find()
+            const listTrainee = await Trainee.find()
+            const listTrainer = await Trainer.find()
+            
+
+            return res.json({
+                success: true, 
+                message: "Account created successfully",
+                listAdmin,
+                listTrainee,
+                listTrainer
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+
 }

@@ -21,11 +21,9 @@ router.post('/register', authController.register)
 router.post('/login', authController.login)
 
 
-// @route POST api/auth/login
-// @desc login for account
+// @route GET api/auth/
+// @desc get list acoount
 // @access Public
-router.get('/', (req, res) => {
-    res.send("ok")
-})
+router.get('/', authController.getListAccount)
 
 module.exports = router;

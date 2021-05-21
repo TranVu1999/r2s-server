@@ -1,5 +1,9 @@
 // ================== AUTH ==================
 
+# Get list account
+###
+GET http://localhost:8080/api/auth/
+
 # Register for admin
 ###
 POST http://localhost:8080/api/auth/admin-register
