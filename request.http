@@ -99,7 +99,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 {
-    "TopicName": "Topic 03"
+    "TopicName": "Other"
 }
 
 
@@ -120,8 +120,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 {
-    "QuestionContent": "Question 02",
-    "TopicId": "60a7bba427655242a834f5c7"
+    "QuestionContent": "What aspects of the topic/source course could be improve? (Những điểm có thể cải tiến ở môn học/khóa học này?)",
+    "TopicId": "60a8edbea86b7c42384e8bee"
 }
 
 # Get list question
@@ -176,3 +176,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 GET http://localhost:8080/api/type-feedback
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+
+
+// ================== FEEDBACK ==================
+
+# Add new feedback
+###
+POST http://localhost:8080/api/feedback
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+{
+    "Title": "New Feedback",
+    "TypeFeedbackId": "60a8e4e8141a2a45a4b1ed0b",
+    "listQuestion": [
+        "60a8eef3a86b7c42384e8bef", 
+        "60a8ef3aa86b7c42384e8bf0",
+        "60a8f031a86b7c42384e8bf3",
+        "60a8f119a86b7c42384e8bf7"
+    ]
+}

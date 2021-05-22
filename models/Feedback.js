@@ -13,14 +13,14 @@ const FeedbackSchema = new Schema({
         default: false
     },
 
-    Admin: {
+    AdminId: {
         type: Schema.Types.ObjectId,
-        ref: Admin
+        ref: 'Admin'
     },
     
-    TypeFeedback: {
+    TypeFeedbackId: {
         type: Schema.Types.ObjectId,
-        ref: TypeFeedback
+        ref: 'TypeFeedback'
     },
 });
 

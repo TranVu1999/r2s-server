@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Feedback_CommentSchema = new Schema({
-    Feedback: {
+    FeedbackId: {
         type: Schema.Types.ObjectId,
-        ref: Feedback
+        ref: 'Feedback'
     },
-    Question: {
+    QuestionId: {
         type: Schema.Types.ObjectId,
-        ref: Question
+        ref: 'Question'
     },
 });
 
