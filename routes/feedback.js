@@ -12,4 +12,12 @@ const feedbackController = require('./../controllers/feedback')
 router.post('/', verifyToken, feedbackController.add)
 
 
+// ================= GET ==================
+
+// @route GET api/class
+// @desc get list feedback
+// @access Private
+router.get('/', verifyToken, feedbackController.getListFeedback)
+
+
 module.exports = router;
