@@ -20,7 +20,7 @@ const showErrorClient = function(res, status, data){
 
 module.exports = {
     /**
-     * Add new topic
+     * Add new type feedback
      */
     add: async function(req, res){
         const {TypeName} = req.body
@@ -62,9 +62,9 @@ module.exports = {
 
 
     /**
-     * Get list topic
+     * Get list type feedback
      */
-    getListtopic: async function(req, res){
+     getListTypeFeedback: async function(req, res){
         const {accountId} = req
 
         try {
@@ -72,12 +72,12 @@ module.exports = {
 
             if(account){
 
-                const listTopic = await Topic.find()
+                const listTypeFeedback = await TypeFeedback.find({isDeleted: false})
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    listTopic
+                    listTypeFeedback
                 })
                 
             }
@@ -85,7 +85,7 @@ module.exports = {
 
             return showErrorClient(res, 400, {
                 isSuccess: false,
-                message: "Can not get list topic"
+                message: "Can not get list type feedback"
             })
                
 

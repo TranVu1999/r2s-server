@@ -16,8 +16,8 @@ router.post('/', verifyToken, typeFeedbackController.add)
 // ================= GET ==================
 
 // @route GET api/class
-// @desc get list topic
+// @desc get list type feedback
 // @access Private
-router.get('/', verifyToken, typeFeedbackController.getListtopic)
+router.get('/', verifyToken, typeFeedbackController.getListTypeFeedback)
 
 module.exports = router;
