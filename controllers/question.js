@@ -98,4 +98,40 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Get list question
+     */
+    getDetail: async function(req, res){
+        const {accountId} = req
+        const {id} = req.params
+
+        try {
+            const account = await Admin.findById(accountId)
+            const question = await Question.findById(id).lean()
+
+            if(account && question){
+
+                const topic = await Topic.findById(question.TopicId)
+                question["TopicName"] = topic.TopicName
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    question
+                }) 
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get this question"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
 }

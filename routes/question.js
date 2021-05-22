@@ -19,4 +19,10 @@ router.post('/', verifyToken, questionController.add)
 // @access Private
 router.get('/', verifyToken, questionController.getListQuestion)
 
+
+// @route GET api/class/:id
+// @desc get question detail
+// @access Private
+router.get('/:id', verifyToken, questionController.getDetail)
+
 module.exports = router;
