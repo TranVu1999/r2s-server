@@ -12,6 +12,15 @@ const questionController = require('./../controllers/question')
 router.post('/', verifyToken, questionController.add)
 
 
+// ================= PUT ==================
+
+// @route PUT api/class
+// @desc edit question
+// @access Private
+router.put('/:id', verifyToken, questionController.edit)
+
+
+
 // ================= GET ==================
 
 // @route GET api/class

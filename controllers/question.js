@@ -59,6 +59,47 @@ module.exports = {
     },
 
     /**
+     * Edit question
+     */
+    edit: async function(req, res){
+        const {QuestionContent, TopicId} = req.body
+        const {accountId} = req
+        const {id} = req.params
+
+        try {
+            const account = await Admin.findById(accountId)
+            const topic = await Topic.findById(TopicId)
+
+            if(account && topic){
+                const editQuestion = await Question.findByIdAndUpdate(id, {
+                    QuestionContent,
+                    TopicId
+                }).lean()
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    question: {
+                        ...editQuestion,
+                        QuestionContent,
+                        TopicId
+                    }
+                }) 
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not add this question"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+    /**
      * Get list question
      */
     getListQuestion: async function(req, res){
