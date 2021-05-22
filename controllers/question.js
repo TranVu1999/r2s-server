@@ -90,7 +90,7 @@ module.exports = {
 
             return showErrorClient(res, 400, {
                 isSuccess: false,
-                message: "Can not add this question"
+                message: "Can not edit this question"
             })
                
 
@@ -167,6 +167,38 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not get this question"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+    /**
+     * Add new question
+     */
+    delete: async function(req, res){
+        const {accountId} = req
+        const {id} = req.params
+
+        try {
+            const account = await Admin.findById(accountId)
+
+            if(account){
+                const deleteQuestion = await Question.findByIdAndUpdate(id, {isDeleted: true})
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    question: deleteQuestion
+                }) 
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not remove this question"
             })
                
 

@@ -20,6 +20,14 @@ router.post('/', verifyToken, questionController.add)
 router.put('/:id', verifyToken, questionController.edit)
 
 
+// ================= DELETE ==================
+
+// @route DELETE api/class
+// @desc delete question
+// @access Private
+router.delete('/:id', verifyToken, questionController.delete)
+
+
 
 // ================= GET ==================
 

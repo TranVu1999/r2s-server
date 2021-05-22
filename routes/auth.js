@@ -21,6 +21,7 @@ router.post('/register', authController.register)
 router.post('/login', authController.login)
 
 
+// ================= GET ==================
 // @route GET api/auth/
 // @desc get list acoount
 // @access Public
