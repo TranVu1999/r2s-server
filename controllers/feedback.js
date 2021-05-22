@@ -67,7 +67,7 @@ module.exports = {
 
                     return res
                     .json({
-                        isSuccess: false,
+                        isSuccess: true,
                         message: "Your action is done successfully",
                         feedback: newFeedback
                     })
@@ -80,6 +80,56 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not add this feedback"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Get list feedback
+     */
+    getListFeedback: async function(req, res){
+
+        try {
+            const {accountId} = req
+            const listAccount = await Admin.find().lean()
+            
+            let account = null
+            for(let item of listAccount){
+                if(item._id.toString() === accountId){
+                    account = {...item}
+                    break
+                }
+            }
+
+
+            if(account){
+                const listFeedback = await Feedback.find({isDeleted: false}).lean()
+                const lenghtFeedback = listFeedback.length
+
+                for(let item of listAccount){
+                    for(let i = 0; i < lenghtFeedback; i++){
+                        if(item._id.toString() === listFeedback[i].AdminId.toString()){
+                            listFeedback[i]["AdminName"] = item.UserName
+                        }
+                    }
+                }
+
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listFeedback: listFeedback
+                })
+            }
+            
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get list feedback"
             })
                
 
