@@ -274,4 +274,46 @@ module.exports = {
     },
 
 
+    /**
+     * Remove module
+     */
+    remove: async function(req, res){
+
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            const updateModule = await Module.findByIdAndUpdate(id, {
+                isDeleted: true
+            }, {new: true})
+
+            if(updateModule){
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    module: updateModule
+                })
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not remove this module"
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
 }

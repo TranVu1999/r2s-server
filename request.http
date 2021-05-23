@@ -267,7 +267,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 }
 
 
-# Add new module
+# Update module
 ###
 PUT http://localhost:8080/api/module/60aa6bb5fdd5941f88e6aa61
 Content-Type: application/json
@@ -282,4 +282,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
     "FeedbackStartTime": "23/05/2021",
     "FeedbackEndTime": "23/05/2021"
 }
+
+# Remove module
+###
+DELETE http://localhost:8080/api/module/60aa6bb5fdd5941f88e6aa61
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 

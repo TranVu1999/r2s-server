@@ -20,5 +20,13 @@ router.post('/', verifyToken, moduleController.add)
 router.put('/:id', verifyToken, moduleController.update)
 
 
+// ================= DELETE ==================
+
+// @route DELETE api/module/:id
+// @desc remove module
+// @access Private
+router.delete('/:id', verifyToken, moduleController.remove)
+
+
 
 module.exports = router;
