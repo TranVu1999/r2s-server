@@ -12,6 +12,14 @@ const feedbackController = require('./../controllers/feedback')
 router.post('/', verifyToken, feedbackController.add)
 
 
+// ================= PUT ==================
+
+// @route PUT api/class
+// @desc Update feedback
+// @access Private
+router.put('/:id', verifyToken, feedbackController.update)
+
+
 // ================= GET ==================
 
 // @route GET api/class
