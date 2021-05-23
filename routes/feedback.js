@@ -20,4 +20,13 @@ router.post('/', verifyToken, feedbackController.add)
 router.get('/', verifyToken, feedbackController.getListFeedback)
 
 
+
+// ================= DELETE ==================
+
+// @route DELETE api/class
+// @desc remove feedback
+// @access Private
+router.delete('/:id', verifyToken, feedbackController.removeFeedback)
+
+
 module.exports = router;
