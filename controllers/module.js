@@ -133,11 +133,11 @@ module.exports = {
 
                 if(flag){
                     const module = new Module({
-                        AdminId,
+                        Admin: AdminId,
                         ModuleName,
                         StartTime,
                         EndTime,
-                        FeedbackId,
+                        Feedback: FeedbackId,
                         FeedbackEndTime,
                         FeedbackStartTime
                     })
@@ -241,11 +241,11 @@ module.exports = {
 
                 if(flag){
                     const updateModule = await Module.findByIdAndUpdate(id, {
-                        AdminId,
+                        Admin: AdminId,
                         ModuleName,
                         StartTime,
                         EndTime,
-                        FeedbackId,
+                        Feedback: FeedbackId,
                         FeedbackEndTime,
                         FeedbackStartTime
                     }, {new: true})
