@@ -59,7 +59,7 @@ const compareTime = (timeA, timeB) =>{
 
 module.exports = {
     /**
-     * Add new class
+     * Add new module
      */
     add: async function(req, res){
         const {
@@ -120,7 +120,7 @@ module.exports = {
 
                 // check admin
                 const admin = await Admin.findById(AdminId)
-                if(!Admin){
+                if(!admin){
                     flag = false
                 }
 
@@ -133,11 +133,11 @@ module.exports = {
 
                 if(flag){
                     const module = new Module({
-                        AdminId,
+                        Admin: AdminId,
                         ModuleName,
                         StartTime,
                         EndTime,
-                        FeedbackId,
+                        Feedback: FeedbackId,
                         FeedbackEndTime,
                         FeedbackStartTime
                     })
@@ -156,6 +156,189 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not add this module"
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Update module
+     */
+    update: async function(req, res){
+        const {
+            ModuleName, 
+            AdminId, 
+            FeedbackId, 
+            StartTime, 
+            EndTime,
+            FeedbackStartTime,
+            FeedbackEndTime
+        } = req.body
+
+        const {id} = req.params
+
+        try {
+            if( AdminId &&
+                ModuleName && FeedbackId && StartTime && 
+                EndTime && FeedbackStartTime && FeedbackEndTime
+            ){
+
+                
+                const {accountId} = req
+                const account = await Admin.findById(accountId)
+
+                if(!account){
+                    return showErrorClient(res, 400, {
+                        isSuccess: false,
+                        message: "This account is not found"
+                    }) 
+                }
+
+                // check time
+                let flag = true
+                const d = new Date()
+                const now = {
+                    date: d.getDate(), 
+                    month: d.getMonth(), 
+                    year: d.getFullYear()
+                }
+
+                let start = splitTimeString(StartTime)
+                let end = splitTimeString(EndTime)
+                if(
+                    !start || !end || 
+                    !compareTime(now, start) || !compareTime(start, end)
+                ){
+                    flag = false
+                }
+
+                let startFeedback = splitTimeString(FeedbackStartTime)
+                let endFeedback = splitTimeString(FeedbackEndTime)
+                if(
+                    !startFeedback || !endFeedback || 
+                    !compareTime(now, startFeedback) || 
+                    !compareTime(startFeedback, endFeedback)
+                ){
+                    flag = false
+                    
+                }
+
+                // check admin
+                const admin = await Admin.findById(AdminId)
+                if(!admin){
+                    flag = false
+                }
+
+                // check feedback
+                const feedback = await Feedback.findById(FeedbackId)
+                if(!feedback){
+                    flag = false
+                }
+
+
+                if(flag){
+                    const updateModule = await Module.findByIdAndUpdate(id, {
+                        Admin: AdminId,
+                        ModuleName,
+                        StartTime,
+                        EndTime,
+                        Feedback: FeedbackId,
+                        FeedbackEndTime,
+                        FeedbackStartTime
+                    }, {new: true})
+
+                    if(updateModule){
+                        return res
+                        .json({
+                            isSuccess: true,
+                            message: "Your action is done successfully",
+                            module: updateModule
+                        })
+                    }
+
+                    
+                }
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not update this module"
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Remove module
+     */
+    remove: async function(req, res){
+
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            const updateModule = await Module.findByIdAndUpdate(id, {
+                isDeleted: true
+            }, {new: true})
+
+            if(updateModule){
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    module: updateModule
+                })
+            }
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not remove this module"
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Get list module
+     */
+    getListModule: async function(req, res){
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            const listModule = await Module.find({isDeleted: false})
+
+            return res
+            .json({
+                isSuccess: true,
+                message: "Your action is done successfully",
+                listModule
             })
 
         } catch (error) {

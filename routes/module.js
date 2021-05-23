@@ -12,5 +12,29 @@ const moduleController = require('./../controllers/module')
 router.post('/', verifyToken, moduleController.add)
 
 
+// ================= PUT ==================
+
+// @route PUT api/module/:id
+// @desc update module
+// @access Private
+router.put('/:id', verifyToken, moduleController.update)
+
+
+// ================= DELETE ==================
+
+// @route DELETE api/module/:id
+// @desc remove module
+// @access Private
+router.delete('/:id', verifyToken, moduleController.remove)
+
+
+// ================= GET ==================
+
+// @route GET api/module
+// @desc get list module
+// @access Private
+router.get('/', verifyToken, moduleController.getListModule)
+
+
 
 module.exports = router;
