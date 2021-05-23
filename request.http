@@ -257,7 +257,24 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 {
-    "ModuleName": "String MVC",
+    "ModuleName": "Hibernate",
+    "StartTime": "23/05/2021",
+    "EndTime": "23/05/2021",
+    "AdminId": "60a724ba957aa60c7c7c3ea1",
+    "FeedbackId": "60aa2adfc2188327980f86d3",
+    "FeedbackStartTime": "23/05/2021",
+    "FeedbackEndTime": "23/05/2021"
+}
+
+
+# Add new module
+###
+PUT http://localhost:8080/api/module/60aa6bb5fdd5941f88e6aa61
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+{
+    "ModuleName": "Hibernate",
     "StartTime": "23/05/2021",
     "EndTime": "23/05/2021",
     "AdminId": "60a724ba957aa60c7c7c3ea1",

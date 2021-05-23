@@ -12,5 +12,13 @@ const moduleController = require('./../controllers/module')
 router.post('/', verifyToken, moduleController.add)
 
 
+// ================= PUT ==================
+
+// @route PUT api/module/:id
+// @desc update module
+// @access Private
+router.put('/:id', verifyToken, moduleController.update)
+
+
 
 module.exports = router;
