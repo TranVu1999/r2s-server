@@ -316,4 +316,35 @@ module.exports = {
     },
 
 
+    /**
+     * Get list module
+     */
+    getListModule: async function(req, res){
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            const listModule = await Module.find({isDeleted: false})
+
+            return res
+            .json({
+                isSuccess: true,
+                message: "Your action is done successfully",
+                listModule
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
 }
