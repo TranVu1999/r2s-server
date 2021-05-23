@@ -9,15 +9,13 @@ const ModuleSchema = new Schema({
     },
 
     StartTime: {
-        type: Date,
-        default: Date.now,
-        require: true
+        type: String,
+        default: ""
     },
 
     EndTime: {
-        type: Date,
-        default: Date.now,
-        require: true
+        type: String,
+        default: ""
     },
 
     isDeleted: {
@@ -26,20 +24,23 @@ const ModuleSchema = new Schema({
     },
 
     FeedbackStartTime: {
-        type: Date,
-        default: Date.now,
-        require: true
+        type: String,
+        default: ""
     },
 
     FeedbackEndTime: {
-        type: Date,
-        default: Date.now,
-        require: true
+        type: String,
+        default: ""
     },
 
     Feedback: {
         type: Schema.Types.ObjectId,
-        ref: Feedback
+        ref: 'Feedback'
+    },
+
+    Admin: {
+        type: Schema.Types.ObjectId,
+        ref: 'Admin'
     },
 });
 

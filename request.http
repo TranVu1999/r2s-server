@@ -193,8 +193,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
     "listQuestion": [
         "60a8eef3a86b7c42384e8bef", 
         "60a8ef3aa86b7c42384e8bf0",
+        "60a8ef7fa86b7c42384e8bf1",
+        "60a8eff8a86b7c42384e8bf2",
         "60a8f031a86b7c42384e8bf3",
-        "60a8f119a86b7c42384e8bf7"
+        "60a8f0bea86b7c42384e8bf6",
+        "60a8f119a86b7c42384e8bf7",
+        "60a8f1d3a86b7c42384e8bf8",
+        "60a8f233a86b7c42384e8bf9",
+        "60aa245c0f97d600157614b8"
     ]
 }
 
@@ -209,14 +215,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 
 # Delete feedback
 ###
-DELETE http://localhost:8080/api/feedback/60a90bda0ab0df327c223fc4
+DELETE http://localhost:8080/api/feedback/60a9e10bb2be0c27844d14ed
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 
+
 # Update feedback
 ###
-PUT http://localhost:8080/api/feedback/ 
+PUT http://localhost:8080/api/feedback/60a9e10bb2be0c27844d14ed
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
@@ -230,3 +237,32 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
         "60a8f119a86b7c42384e8bf7"
     ]
 }
+
+
+
+# Get feedback
+###
+GET http://localhost:8080/api/feedback/60aa2adfc2188327980f86d3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+
+
+// ================== MODULE ==================
+
+# Add new module
+###
+POST http://localhost:8080/api/module
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+{
+    "ModuleName": "String MVC",
+    "StartTime": "23/05/2021",
+    "EndTime": "23/05/2021",
+    "AdminId": "60a724ba957aa60c7c7c3ea1",
+    "FeedbackId": "60aa2adfc2188327980f86d3",
+    "FeedbackStartTime": "23/05/2021",
+    "FeedbackEndTime": "23/05/2021"
+}
+

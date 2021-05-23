@@ -42,6 +42,7 @@ module.exports = {
                 for(let item of listQuestion){
                     for(let item_db of listQuestion_db){
                         if(item === item_db._id.toString()){
+                            console.log({item})
                             count++
                         }
                     }
@@ -237,6 +238,52 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not remove this feedback"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Get feedback
+     */
+    getFeedback: async function(req, res){
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+            const feedback_db = await Feedback.findById(id).lean()
+            
+            if(account && feedback_db){
+
+                const test = await Feedback.findOne({Title: "New Feedback2"}).populate('AdminId')
+
+                const test2 = await Feedback_Question.find({FeedbackId: feedback_db._id}).populate({
+                    path: "QuestionId",
+                    populate: {
+                        path: "TopicId",
+                        model: "Topic"
+                    }
+                })
+
+                
+
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    // test,
+                    test2
+                })
+            }
+            
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get this feedback"
             })
                
 

@@ -28,6 +28,12 @@ router.put('/:id', verifyToken, feedbackController.update)
 router.get('/', verifyToken, feedbackController.getListFeedback)
 
 
+// @route GET api/class/;id
+// @desc get feedback
+// @access Private
+router.get('/:id', verifyToken, feedbackController.getFeedback)
+
+
 
 // ================= DELETE ==================
 
