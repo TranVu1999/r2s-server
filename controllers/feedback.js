@@ -139,5 +139,37 @@ module.exports = {
     },
 
 
+    /**
+     * Remove feedback
+     */
+    removeFeedback: async function(req, res){
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+            const updateFeedback = await Feedback.findByIdAndUpdate(id, {isDeleted: true})
+            
+            if(account && updateFeedback){
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    feedback: updateFeedback
+                })
+            }
+            
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not remove this feedback"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
 
 }
