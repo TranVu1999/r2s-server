@@ -275,12 +275,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 
 {
     "ModuleName": "String MVC",
-    "StartTime": "23/05/2021",
-    "EndTime": "23/05/2021",
+    "StartTime": "24/05/2021",
+    "EndTime": "24/05/2021",
     "AdminId": "60a724ba957aa60c7c7c3ea1",
     "FeedbackId": "60aa2adfc2188327980f86d3",
-    "FeedbackStartTime": "23/05/2021",
-    "FeedbackEndTime": "23/05/2021"
+    "FeedbackStartTime": "24/05/2021",
+    "FeedbackEndTime": "24/05/2021"
 }
 
 # Remove module
@@ -289,6 +289,12 @@ DELETE http://localhost:8080/api/module/60aa6a1501e23f0b98f0679d
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
+
+# Get module
+###
+GET http://localhost:8080/api/module/60aa6a1501e23f0b98f0679d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
 
 # Get list module
 ###

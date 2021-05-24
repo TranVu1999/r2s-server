@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const EnrollmentSchema = new Schema({
     Class: {
         type: Schema.Types.ObjectId,
-        ref: Class
+        ref: 'Class'
     },
 
     Trainee: {
         type: Schema.Types.ObjectId,
-        ref: Trainee
+        ref: 'Trainee'
     },
 });
 

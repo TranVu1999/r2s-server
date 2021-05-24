@@ -249,13 +249,33 @@ module.exports = {
                         FeedbackEndTime,
                         FeedbackStartTime
                     }, {new: true})
+                    .populate("Admin", "UserName")
+                    .populate("Feedback", "Title")
+                    .lean()
+
+                    console.log({updateModule})
 
                     if(updateModule){
+
+                        const module = {
+                            Id: updateModule._id,
+                            StartTime: updateModule.StartTime,
+                            EndTime: updateModule.EndTime,
+                            isDeleted: updateModule.isDeleted,
+                            FeedbackStartTime: updateModule.FeedbackStartTime,
+                            FeedbackEndTime: updateModule.FeedbackEndTime,
+                            AdminName: updateModule.Admin.UserName,
+                            AdminId: updateModule.Admin._id,
+                            ModuleName: updateModule.ModuleName,
+                            FeedbackId: updateModule.Feedback._id,
+                            FeedbackTitle: updateModule.Feedback.Title
+                        }
+
                         return res
                         .json({
                             isSuccess: true,
                             message: "Your action is done successfully",
-                            module: updateModule
+                            module
                         })
                     }
 
@@ -295,13 +315,33 @@ module.exports = {
             const updateModule = await Module.findByIdAndUpdate(id, {
                 isDeleted: true
             }, {new: true})
+            .populate("Admin", "UserName")
+            .populate("Feedback", "Title")
+            .lean()
+
+            const module = {
+                Id: updateModule._id,
+                StartTime: updateModule.StartTime,
+                EndTime: updateModule.EndTime,
+                isDeleted: updateModule.isDeleted,
+                FeedbackStartTime: updateModule.FeedbackStartTime,
+                FeedbackEndTime: updateModule.FeedbackEndTime,
+                AdminName: updateModule.Admin.UserName,
+                AdminId: updateModule.Admin._id,
+                ModuleName: updateModule.ModuleName,
+                FeedbackId: updateModule.Feedback._id,
+                FeedbackTitle: updateModule.Feedback.Title
+            }
+
+
+
 
             if(updateModule){
                 return res
                 .json({
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    module: updateModule
+                    module
                 })
             }
 
@@ -339,15 +379,17 @@ module.exports = {
 
             const listModule = listModule_db.map(item => {
                 return {
-                    _id: item._id,
+                    Id: item._id,
                     StartTime: item.StartTime,
                     EndTime: item.EndTime,
                     isDeleted: item.isDeleted,
                     FeedbackStartTime: item.FeedbackStartTime,
                     FeedbackEndTime: item.FeedbackEndTime,
                     AdminName: item.Admin.UserName,
+                    AdminId: item.Admin._id,
                     ModuleName: item.ModuleName,
-                    Feedback: item.Feedback.Title
+                    FeedbackId: item.Feedback._id,
+                    FeedbackTitle: item.Feedback.Title
                 }
             })
 
@@ -356,6 +398,55 @@ module.exports = {
                 isSuccess: true,
                 message: "Your action is done successfully",
                 listModule
+            })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Get module
+     */
+    getModule: async function(req, res){
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            const account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            let module = await Module.findById(id)
+            .populate("Admin", "UserName")
+            .populate("Feedback", "Title")
+            .lean()
+
+            module = {
+                Id: module._id,
+                StartTime: module.StartTime,
+                EndTime: module.EndTime,
+                isDeleted: module.isDeleted,
+                FeedbackStartTime: module.FeedbackStartTime,
+                FeedbackEndTime: module.FeedbackEndTime,
+                AdminName: module.Admin.UserName,
+                AdminId: module.Admin._id,
+                ModuleName: module.ModuleName,
+                FeedbackId: module.Feedback._id,
+                FeedbackTitle: module.Feedback.Title
+            }
+
+            return res
+            .json({
+                isSuccess: true,
+                message: "Your action is done successfully",
+                module
             })
 
         } catch (error) {
