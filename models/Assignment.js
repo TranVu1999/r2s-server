@@ -10,17 +10,17 @@ const AssignmentSchema = new Schema({
 
     Class: {
         type: Schema.Types.ObjectId,
-        ref: Class
+        ref: 'Class'
     },
 
     Module: {
         type: Schema.Types.ObjectId,
-        ref: Module
+        ref:'Module'
     },
 
     Trainer: {
         type: Schema.Types.ObjectId,
-        ref: Trainer
+        ref: 'Trainer'
     },
 });
 
