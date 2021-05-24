@@ -332,7 +332,24 @@ module.exports = {
                 }) 
             }
 
-            const listModule = await Module.find({isDeleted: false})
+            const listModule_db = await Module.find({isDeleted: false})
+            .populate("Admin", "UserName")
+            .populate("Feedback", "Title")
+            .lean()
+
+            const listModule = listModule_db.map(item => {
+                return {
+                    _id: item._id,
+                    StartTime: item.StartTime,
+                    EndTime: item.EndTime,
+                    isDeleted: item.isDeleted,
+                    FeedbackStartTime: item.FeedbackStartTime,
+                    FeedbackEndTime: item.FeedbackEndTime,
+                    AdminName: item.Admin.UserName,
+                    ModuleName: item.ModuleName,
+                    Feedback: item.Feedback.Title
+                }
+            })
 
             return res
             .json({
