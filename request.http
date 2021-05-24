@@ -313,4 +313,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 }
 
 
+# Update assignment
+###
+PUT http://localhost:8080/api/assignment/60ab5cf36d50a8379435dd43
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJpYXQiOjE2MjE1NzcyNzB9.sT_-4QbagBAaVfArXoa7v8REDmeYBrZw1YA7fMxQTIs
+
+{
+    "ModuleId": "60aa6bb5fdd5941f88e6aa61",
+    "ClassId": "60a75ccbec1f7025c8d2fef9",
+    "TrainerId": "60a724db957aa60c7c7c3ea3"
+}
+
+
 

@@ -13,4 +13,13 @@ router.post('/', verifyToken, assignmentController.add)
 
 
 
+// ================= PUT ==================
+
+// @route PUT api/assignment
+// @desc update assignment
+// @access Private
+router.put('/:id', verifyToken, assignmentController.update)
+
+
+
 module.exports = router;
