@@ -100,7 +100,9 @@ module.exports = {
                     .json({success: false, message: "Incorrect username or password"})
                 }
 
-                const accessToken = jwt.sign({accountId: account._id}, process.env.ACCESS_TOKEN_SECRET)
+                const accessToken = jwt.sign({
+                    accountId: account._id, typeUser
+                }, process.env.ACCESS_TOKEN_SECRET)
                 return res.json({
                     success: true, 
                     message: "User logged successfully", 

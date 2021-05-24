@@ -36,7 +36,7 @@ router.delete('/:id', verifyToken, moduleController.remove)
 router.get('/', verifyToken, moduleController.getListModule)
 
 
-// @route GET api/module/;id
+// @route GET api/module/:id
 // @desc get module
 // @access Private
 router.get('/:id', verifyToken, moduleController.getModule)

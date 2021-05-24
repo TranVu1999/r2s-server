@@ -1,9 +1,12 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt-nodejs')
+
 const Admin = require('./../models/Admin')
+const Trainer = require('./../models/Trainer')
+const Trainee = require('./../models/Trainee')
 const Feedback = require('./../models/Feedback')
 const Class = require('./../models/Class')
 const Module = require('../models/Module')
+const Assignment = require('../models/Assignment')
+const Enrollment = require('../models/Enrollment')
 
 const showErrorSystem = function(res, error){
     console.log(error)
@@ -362,8 +365,25 @@ module.exports = {
     getListModule: async function(req, res){
 
         try {
-            const {accountId} = req
-            const account = await Admin.findById(accountId)
+            const {accountId, typeUser} = req
+            let account = null
+
+            switch(typeUser){
+                case "admin":
+                    account = await Admin.findById(accountId)
+                    break
+
+                case "trainer":
+                    account = await Trainer.findById(accountId)
+                    break
+
+                case "trainee":
+                    account = await Trainee.findById(accountId)
+                    break
+                default:
+                    break
+            }
+            
 
             if(!account){
                 return showErrorClient(res, 400, {
@@ -372,32 +392,107 @@ module.exports = {
                 }) 
             }
 
-            const listModule_db = await Module.find({isDeleted: false})
-            .populate("Admin", "UserName")
-            .populate("Feedback", "Title")
-            .lean()
+            let listModule = []
+            let listModule_db = null
+            let test = null
 
-            const listModule = listModule_db.map(item => {
-                return {
-                    Id: item._id,
-                    StartTime: item.StartTime,
-                    EndTime: item.EndTime,
-                    isDeleted: item.isDeleted,
-                    FeedbackStartTime: item.FeedbackStartTime,
-                    FeedbackEndTime: item.FeedbackEndTime,
-                    AdminName: item.Admin.UserName,
-                    AdminId: item.Admin._id,
-                    ModuleName: item.ModuleName,
-                    FeedbackId: item.Feedback._id,
-                    FeedbackTitle: item.Feedback.Title
-                }
-            })
+            switch(typeUser){
+                case "admin":
+                    listModule_db = await Module.find({isDeleted: false})
+                    .populate("Admin", "UserName")
+                    .populate("Feedback", "Title")
+                    .lean()
+
+                    listModule = listModule_db.map(item => {
+                        return {
+                            Id: item._id,
+                            StartTime: item.StartTime,
+                            EndTime: item.EndTime,
+                            isDeleted: item.isDeleted,
+                            FeedbackStartTime: item.FeedbackStartTime,
+                            FeedbackEndTime: item.FeedbackEndTime,
+                            AdminName: item.Admin.UserName,
+                            AdminId: item.Admin._id,
+                            ModuleName: item.ModuleName,
+                            FeedbackId: item.Feedback._id,
+                            FeedbackTitle: item.Feedback.Title
+                        }
+                    })
+                    break
+
+                case "trainer":
+                    listModule_db = await Assignment.find({Trainer: accountId})
+                    .populate("Trainer")
+                    .populate("Module")
+
+                    listModule = listModule_db.map(item => {
+                        return {
+                            Id: item.Module._id,
+                            StartTime: item.Module.StartTime,
+                            EndTime: item.Module.EndTime,
+                            isDeleted: item.Module.isDeleted,
+                            FeedbackStartTime: item.Module.FeedbackStartTime,
+                            FeedbackEndTime: item.Module.FeedbackEndTime,
+                            AdminName: item.Module.Admin.UserName,
+                            AdminId: item.Module.Admin._id,
+                            ModuleName: item.Module.ModuleName,
+                            FeedbackId: item.Module.Feedback._id,
+                            FeedbackTitle: item.Module.Feedback.Title
+                        }
+                    }) 
+                    break
+
+
+                case "trainee":
+                    listModule_db = await Assignment.find()
+                    .populate("Class", "_id")
+                    .populate({
+                        path: "Module",
+                        populate: [
+                            { path: 'Admin', model: 'Admin'},
+                            { path: 'Feedback', model: 'Feedback'}
+                        ]
+                          
+                    })
+                    .lean()
+
+                    const listClass = await Enrollment.find({Trainee: accountId}).lean()
+
+                    for(let modItem of listModule_db){
+                        for(let classItem of listClass){
+                            if(modItem.Class._id.toString() === classItem.Class.toString()){
+                                let moduleTemp = {
+                                    // Id: modItem._id,
+                                    // StartTime: modItem.StartTime,
+                                    // EndTime: modItem.EndTime,
+                                    // isDeleted: modItem.isDeleted,
+                                    // FeedbackStartTime: modItem.FeedbackStartTime,
+                                    // FeedbackEndTime: modItem.FeedbackEndTime,
+                                    // AdminName: modItem.AdminId,
+                                    // AdminId: modItem.AdminId,
+                                    // ModuleName: modItem.ModuleName,
+                                    // FeedbackId: modItem.Feedback._id,
+                                    // FeedbackTitle: modItem.Feedback.Title
+                                }
+
+                                listModule.push(modItem)
+                            }
+                        }
+                    }
+
+                     
+                    break
+                default:
+                    break
+            }
+            
 
             return res
             .json({
                 isSuccess: true,
                 message: "Your action is done successfully",
-                listModule
+                listModule,
+                test
             })
 
         } catch (error) {
