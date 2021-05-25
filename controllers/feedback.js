@@ -256,28 +256,49 @@ module.exports = {
         try {
             const {accountId} = req
             const account = await Admin.findById(accountId)
-            const feedback_db = await Feedback.findById(id).lean()
             
-            if(account && feedback_db){
+            if(account){
+                let feedback_db = await Feedback.findById(id)
+                .populate("AdminId")
+                .populate("TypeFeedbackId")
+                
+                let feedback = {
+                    Id: feedback_db._id,
+                    Title: feedback_db.Title,
+                    AdminId: feedback_db.AdminId._id,
+                    AdminName: feedback_db.AdminId.UserName,
+                    TypeFeedbackId: feedback_db.TypeFeedbackId._id,
+                    TypeFeedbackName: feedback_db.TypeFeedbackId.TypeName
+                }
 
-                const test = await Feedback.findOne({Title: "New Feedback2"}).populate('AdminId')
 
-                const test2 = await Feedback_Question.find({FeedbackId: feedback_db._id}).populate({
+                const listFeedback_Question_db = await Feedback_Question.find({
+                    FeedbackId: id
+                }).populate({
                     path: "QuestionId",
-                    populate: {
-                        path: "TopicId",
-                        model: "Topic"
+                    populate: [
+                        { path: 'TopicId', model: 'Topic'}
+                    ]
+                })
+
+                let listQuestion = listFeedback_Question_db.map(item =>{
+                    return {
+                        Id: item.QuestionId._id,
+                        TopicId: item.QuestionId.TopicId._id,
+                        TopicName: item.QuestionId.TopicId.TopicName,
+                        QuestionContent: item.QuestionId.QuestionContent,
+                        isDeleted: item.QuestionId.isDeleted
                     }
                 })
 
+                feedback["listQuestion"] = listQuestion
                 
 
                 return res
                 .json({
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    // test,
-                    test2
+                    feedback
                 })
             }
             
