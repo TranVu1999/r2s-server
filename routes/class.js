@@ -18,7 +18,13 @@ router.post('/', verifyToken, classController.add)
 // @route GET api/class
 // @desc get list class by type user
 // @access Private
-router.get('/:typeUser', verifyToken, classController.getList)
+router.get('/', verifyToken, classController.getList)
+
+
+// @route GET api/class
+// @desc get list class by type user
+// @access Private
+router.get('/:id', verifyToken, classController.getClassDetail)
 
 
 
