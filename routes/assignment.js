@@ -22,4 +22,13 @@ router.put('/:id', verifyToken, assignmentController.update)
 
 
 
+// ================= GET ==================
+
+// @route GET api/assignment
+// @desc get list assignment
+// @access Private
+router.get('/', verifyToken, assignmentController.getListAssignment)
+
+
+
 module.exports = router;

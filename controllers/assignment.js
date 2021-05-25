@@ -45,6 +45,20 @@ module.exports = {
                 }) 
             }
 
+            const oldAssignment = await Assignment.findOne({
+                Class: ClassId,
+                Module: ModuleId,
+                Trainer: TrainerId
+            })
+
+            if(oldAssignment){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This assignment already exist"
+                }) 
+            }
+
+
             const module_db = await Module.findById(ModuleId)
             const class_db = await Class.findById(ClassId)
             const trainer_db = await Trainer.findById(TrainerId)
@@ -96,6 +110,19 @@ module.exports = {
                     message: "This account is not found"
                 }) 
             }
+
+            const oldAssignment = await Assignment.findOne({
+                Class: ClassId,
+                Module: ModuleId,
+                Trainer: TrainerId
+            })
+
+            if(oldAssignment){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This assignment already exist"
+                }) 
+            }
             
             const module_db = await Module.findById(ModuleId)
             const class_db = await Class.findById(ClassId)
@@ -119,6 +146,106 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not update this assignment"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+    
+    /**
+     * Get list assignment
+     */
+    getListAssignment: async function(req, res){
+
+        try {
+            const {accountId, typeUser} = req
+            let account = null
+            
+            // check account
+            switch(typeUser){
+                case "admin":
+                    account = await Admin.findById(accountId)
+                    break
+
+                case "trainer":
+                    account = await Trainer.findById(accountId)
+                    break
+
+                case "trainee":
+                    account = await Trainee.findById(accountId)
+                    break
+                default:
+                    break
+            }
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            let listAssignment = []
+
+            switch(typeUser){
+                case "admin":
+                    listAssignment = await Assignment.find()
+                    .populate("Class")
+                    .populate("Module")
+                    .populate("Trainer")
+
+
+                    listAssignment = listAssignment.map(item =>{
+                        return {
+                            Id: item._id,
+                            ClassId: item.Class._id,
+                            ClassName: item.Class.ClassName,
+                            ModuleId: item.Module._id,
+                            ModuleName: item.Module.ModuleName,
+                            TrainerId: item.Trainer._id,
+                            TrainerName: item.Trainer.UserName,
+                            RegistrationCode: item.RegistrationCode
+                        }
+                    })
+
+                    break
+
+                case "trainer":
+                    listAssignment = await Assignment.find({Trainer: accountId})
+                    .populate("Class")
+                    .populate("Module")
+                    .populate("Trainer")
+
+
+                    listAssignment = listAssignment.map(item =>{
+                        return {
+                            Id: item._id,
+                            ClassId: item.Class._id,
+                            ClassName: item.Class.ClassName,
+                            ModuleId: item.Module._id,
+                            ModuleName: item.Module.ModuleName,
+                            TrainerId: item.Trainer._id,
+                            TrainerName: item.Trainer.UserName,
+                            RegistrationCode: item.RegistrationCode
+                        }
+                    })
+                    break
+
+                case "trainee":
+                    break
+                default:
+                    break
+            }
+
+            
+            return res
+            .json({
+                isSuccess: true,
+                message: "Your action is done successfully",
+                listAssignment
             })
                
 
