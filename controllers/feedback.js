@@ -291,14 +291,12 @@ module.exports = {
         const {id} = req.params
 
         try {
-            const {accountId} = req
-            const account = await Admin.findById(accountId)
             
-            if(account){
-                let feedback_db = await Feedback.findById(id)
-                .populate("AdminId")
-                .populate("TypeFeedbackId")
-                
+            let feedback_db = await Feedback.findById(id)
+            .populate("AdminId")
+            .populate("TypeFeedbackId")
+
+            if(feedback_db){
                 let feedback = {
                     Id: feedback_db._id,
                     Title: feedback_db.Title,
@@ -363,15 +361,11 @@ module.exports = {
                     feedback["EndTime"] = `${endTime.date}/${endTime.month}/${endTime.year}`
                 }
 
-                
-
-
                 return res
                 .json({
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    feedback,
-                    listTime_db
+                    feedback
                 })
             }
             
