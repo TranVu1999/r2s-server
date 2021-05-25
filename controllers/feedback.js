@@ -1,4 +1,5 @@
 const Admin = require('./../models/Admin')
+const Module = require('./../models/Module')
 const Feedback = require('./../models/Feedback')
 const Question = require('./../models/Question')
 const TypeFeedback = require('./../models/TypeFeedback')
@@ -21,6 +22,42 @@ const showErrorClient = function(res, status, data){
     .status(status)
     .json({...data})
 }
+
+/**
+ * 
+ * @param {*} str is a string of datetime
+ * @returns object d{date, month, year} if str is string of datetime exactly
+ */
+ const splitTimeString = str => {
+    let d = {}
+
+    try{
+        const splitStr = str.split("/")
+
+        // convert to number
+        if(isNaN(splitStr[0])) return null
+        if(isNaN(splitStr[1])) return null
+        if(isNaN(splitStr[2])) return null
+
+        d.date = parseInt(splitStr[0])
+        d.month = parseInt(splitStr[1])
+        d.year = parseInt(splitStr[2])
+
+    }catch(err){
+        d = null
+    }
+
+    return d
+}
+
+const compareTime = (timeA, timeB) =>{
+    if(timeB.year < timeA.year) return 0
+    if(timeB.month < timeA.month) return 0
+    if(timeB.date < timeA.date) return 0
+
+    return 1
+}
+
 
 module.exports = {
     /**
@@ -291,14 +328,50 @@ module.exports = {
                     }
                 })
 
+                // set list question
                 feedback["listQuestion"] = listQuestion
                 
+
+                let listTime_db = await Module.find({Feedback: id}).lean()
+
+                listTime_db = listTime_db.map(item =>{
+                    return {
+                        startTime: item.FeedbackStartTime,
+                        endTime: item.FeedbackEndTime,
+                    }
+                })
+
+                if(listTime_db.length > 0){
+                    let startTime = splitTimeString(listTime_db[0].startTime)
+                    let endTime = splitTimeString(listTime_db[0].endTime)
+
+                    for(let timeItem of listTime_db){
+                        let start = splitTimeString(timeItem.startTime)
+                        let end = splitTimeString(timeItem.endTime)
+
+                        if(!compareTime(startTime, start)){
+                            startTime = {...start}
+                        }
+
+                        if(compareTime(endTime, end)){
+                            endTime = {...end}
+                        }
+                    }
+
+                    // set time
+                    feedback["StartTime"] = `${startTime.date}/${startTime.month}/${startTime.year}`
+                    feedback["EndTime"] = `${endTime.date}/${endTime.month}/${endTime.year}`
+                }
+
+                
+
 
                 return res
                 .json({
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    feedback
+                    feedback,
+                    listTime_db
                 })
             }
             
@@ -312,7 +385,5 @@ module.exports = {
             showErrorSystem(res, error)
         }
     },
-
-
 
 }
