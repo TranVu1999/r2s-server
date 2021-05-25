@@ -110,15 +110,18 @@ module.exports = {
 
             if(account){
                
-                const listQuestion = await Question.find({isDeleted: false}).lean()
-                const listTopic = await Topic.find().lean()
+                let listQuestion = await Question.find({isDeleted: false})
+                .populate("TopicId")
 
-
-                const lengthQuestion = listQuestion.length
-                for(let i = 0; i < lengthQuestion; i++){
-                    let topic = listTopic.find(item => item._id.toString() === listQuestion[i].TopicId.toString())
-                    listQuestion[i]["TopicName"] = topic.TopicName
-                }
+                listQuestion = listQuestion.map(item =>{
+                    return {
+                        Id: item._id,
+                        TopicId: item.TopicId._id,
+                        TopicName: item.TopicId.TopicName,
+                        QuestionContent: item.QuestionContent,
+                        isDeleted: item.isDeleted
+                    }
+                })
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,
@@ -149,12 +152,19 @@ module.exports = {
 
         try {
             const account = await Admin.findById(accountId)
-            const question = await Question.findById(id).lean()
 
-            if(account && question){
+            if(account){
 
-                const topic = await Topic.findById(question.TopicId)
-                question["TopicName"] = topic.TopicName
+                let question = await Question.findById(id)
+                .populate("TopicId")
+
+                question = {
+                    Id: question._id,
+                    TopicId: question.TopicId._id,
+                    TopicName: question.TopicId.TopicName,
+                    QuestionContent: question.QuestionContent,
+                    isDeleted: question.isDeleted
+                }
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,
@@ -167,6 +177,50 @@ module.exports = {
             return showErrorClient(res, 400, {
                 isSuccess: false,
                 message: "Can not get this question"
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+    /**
+     * Get list question of topic
+     */
+    getListQuestionOfTopic: async function(req, res){
+        const {TopicId} = req.body
+        const {accountId} = req
+
+        try {
+            const account = await Admin.findById(accountId)
+
+            if(account){
+
+                let listQuestion = await Question.find({TopicId, isDeleted: false})
+                .populate("TopicId")
+
+                listQuestion = listQuestion.map(item =>{
+                    return{
+                        Id: item._id,
+                        TopicId: item.TopicId._id,
+                        TopicName: item.TopicId.TopicName,
+                        QuestionContent: item.QuestionContent,
+                        isDeleted: item.isDeleted
+                    }
+                })
+
+                return showErrorClient(res, 200, {
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listQuestion
+                }) 
+            }
+
+
+            return showErrorClient(res, 400, {
+                isSuccess: false,
+                message: "Can not get list question"
             })
                
 

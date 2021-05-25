@@ -233,9 +233,6 @@ module.exports = {
                         }
                     })
                     break
-
-                case "trainee":
-                    break
                 default:
                     break
             }

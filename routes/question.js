@@ -12,6 +12,12 @@ const questionController = require('./../controllers/question')
 router.post('/', verifyToken, questionController.add)
 
 
+// @route POST api/class/filter
+// @desc get list question of topic
+// @access Private
+router.post('/filter', verifyToken, questionController.getListQuestionOfTopic)
+
+
 // ================= PUT ==================
 
 // @route PUT api/class
@@ -37,9 +43,11 @@ router.delete('/:id', verifyToken, questionController.delete)
 router.get('/', verifyToken, questionController.getListQuestion)
 
 
+
 // @route GET api/class/:id
 // @desc get question detail
 // @access Private
 router.get('/:id', verifyToken, questionController.getDetail)
+
 
 module.exports = router;
