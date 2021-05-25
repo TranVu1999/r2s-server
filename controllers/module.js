@@ -394,7 +394,6 @@ module.exports = {
 
             let listModule = []
             let listModule_db = null
-            let test = null
 
             switch(typeUser){
                 case "admin":
@@ -461,21 +460,25 @@ module.exports = {
                     for(let modItem of listModule_db){
                         for(let classItem of listClass){
                             if(modItem.Class._id.toString() === classItem.Class.toString()){
+                                console.log(modItem.Module.Admin)
+
                                 let moduleTemp = {
-                                    // Id: modItem._id,
-                                    // StartTime: modItem.StartTime,
-                                    // EndTime: modItem.EndTime,
-                                    // isDeleted: modItem.isDeleted,
-                                    // FeedbackStartTime: modItem.FeedbackStartTime,
-                                    // FeedbackEndTime: modItem.FeedbackEndTime,
-                                    // AdminName: modItem.AdminId,
-                                    // AdminId: modItem.AdminId,
-                                    // ModuleName: modItem.ModuleName,
-                                    // FeedbackId: modItem.Feedback._id,
-                                    // FeedbackTitle: modItem.Feedback.Title
+                                    Id: modItem.Module._id,
+                                    StartTime: modItem.Module.StartTime,
+                                    EndTime: modItem.Module.EndTime,
+                                    isDeleted: modItem.Module.isDeleted,
+                                    FeedbackStartTime: modItem.Module.FeedbackStartTime,
+                                    FeedbackEndTime: modItem.Module.FeedbackEndTime,
+                                    AdminName: modItem.Module.Admin.UserName,
+                                    AdminId: modItem.Module.Admin._id,
+                                    ModuleName: modItem.Module.ModuleName,
+                                    FeedbackId: modItem.Module.Feedback._id,
+                                    FeedbackTitle: modItem.Module.Feedback.Title
                                 }
 
-                                listModule.push(modItem)
+                                
+
+                                listModule.push(moduleTemp)
                             }
                         }
                     }
@@ -491,8 +494,7 @@ module.exports = {
             .json({
                 isSuccess: true,
                 message: "Your action is done successfully",
-                listModule,
-                test
+                listModule
             })
 
         } catch (error) {
@@ -523,26 +525,36 @@ module.exports = {
             .populate("Feedback", "Title")
             .lean()
 
-            module = {
-                Id: module._id,
-                StartTime: module.StartTime,
-                EndTime: module.EndTime,
-                isDeleted: module.isDeleted,
-                FeedbackStartTime: module.FeedbackStartTime,
-                FeedbackEndTime: module.FeedbackEndTime,
-                AdminName: module.Admin.UserName,
-                AdminId: module.Admin._id,
-                ModuleName: module.ModuleName,
-                FeedbackId: module.Feedback._id,
-                FeedbackTitle: module.Feedback.Title
+            if(module){
+                module = {
+                    Id: module._id,
+                    StartTime: module.StartTime,
+                    EndTime: module.EndTime,
+                    isDeleted: module.isDeleted,
+                    FeedbackStartTime: module.FeedbackStartTime,
+                    FeedbackEndTime: module.FeedbackEndTime,
+                    AdminName: module.Admin.UserName,
+                    AdminId: module.Admin._id,
+                    ModuleName: module.ModuleName,
+                    FeedbackId: module.Feedback._id,
+                    FeedbackTitle: module.Feedback.Title
+                }
+    
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    module
+                })
             }
 
             return res
-            .json({
-                isSuccess: true,
-                message: "Your action is done successfully",
-                module
-            })
+                .json({
+                    isSuccess: false,
+                    message: "Can not get this module"
+                })
+
+            
 
         } catch (error) {
             showErrorSystem(res, error)

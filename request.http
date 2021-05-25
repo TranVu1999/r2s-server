@@ -294,7 +294,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 ###
 GET http://localhost:8080/api/module/60aa6a1501e23f0b98f0679d
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRkYjk1N2FhNjBjN2M3YzNlYTMiLCJ0eXBlVXNlciI6InRyYWluZXIiLCJpYXQiOjE2MjE4NjAxMDJ9.9jeoS9FkyEk6QyeOBEVLuK_sEf7QhhkihQUIk4Y20dU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRiYTk1N2FhNjBjN2M3YzNlYTEiLCJ0eXBlVXNlciI6ImFkbWluIiwiaWF0IjoxNjIxODU5NDMwfQ.-GljSrlUF4b3nl8ojzpk1xK1O-_MX5B6a31g8u5eTp8
 
 # Get list module
 ###
