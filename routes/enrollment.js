@@ -12,4 +12,12 @@ const enrollmentController = require('./../controllers/enrollment')
 router.post('/', verifyToken, enrollmentController.add)
 
 
+// ================= GET ==================
+
+// @route GET api/enrollment
+// @desc get enrollment detail
+// @access Private
+router.get('/:traineeId', verifyToken, enrollmentController.getEnrollmentDetail)
+
+
 module.exports = router;
