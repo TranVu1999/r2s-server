@@ -1,6 +1,9 @@
 const Admin = require('./../models/Admin')
+const Trainee = require('./../models/Trainee')
 const Module = require('./../models/Module')
+const Enrollment = require('./../models/Enrollment')
 const Feedback = require('./../models/Feedback')
+const Assignment = require('./../models/Assignment')
 const Question = require('./../models/Question')
 const TypeFeedback = require('./../models/TypeFeedback')
 const Feedback_Question = require('./../models/Feedback_Question')
@@ -208,29 +211,92 @@ module.exports = {
     getListFeedback: async function(req, res){
 
         try {
-            const {accountId} = req
+            const {accountId, typeUser} = req
             const listAccount = await Admin.find().lean()
             
             let account = null
-            for(let item of listAccount){
-                if(item._id.toString() === accountId){
-                    account = {...item}
+            switch(typeUser){
+                case "admin":
+                    for(let item of listAccount){
+                        if(item._id.toString() === accountId){
+                            account = {...item}
+                            break
+                        }
+                    }
                     break
-                }
+                
+                case "trainee":
+                    account = await Trainee.findById(accountId)
+                    break
+                default:
+                    break
             }
+            
 
 
             if(account){
-                const listFeedback = await Feedback.find({isDeleted: false}).lean()
-                const lenghtFeedback = listFeedback.length
+                let listFeedback = []
 
-                for(let item of listAccount){
-                    for(let i = 0; i < lenghtFeedback; i++){
-                        if(item._id.toString() === listFeedback[i].AdminId.toString()){
-                            listFeedback[i]["AdminName"] = item.UserName
+                switch(typeUser){
+                    case "admin":
+                        listFeedback = await Feedback.find({isDeleted: false}).lean()
+                        const lenghtFeedback = listFeedback.length
+
+                        for(let item of listAccount){
+                            for(let i = 0; i < lenghtFeedback; i++){
+                                if(item._id.toString() === listFeedback[i].AdminId.toString()){
+                                    listFeedback[i]["AdminName"] = item.UserName
+                                }
+                            }
                         }
-                    }
+                        break
+                    
+                    case "trainee":
+                        let listFeedback_db = await Assignment.find()
+                        .populate("Class")
+                        .populate({
+                            path: "Module",
+                            populate: {
+                                path: "Feedback",
+                                model: "Feedback",
+
+                                populate: {
+                                    path: "AdminId",
+                                    model: "Admin"
+                                }
+                            }
+                        })
+
+                        const listClassOfMember = await Enrollment.find({Trainee: accountId})
+
+                        for(let classItem of listClassOfMember){
+                            for(feedbackItem of listFeedback_db){
+                                if(classItem.Class.toString() === feedbackItem.Class._id.toString()){
+                                    listFeedback.push(feedbackItem)
+                                }
+                            }
+                        }
+
+                        listFeedback = listFeedback.map(item =>{
+                            return {
+                                Id: item.Module.Feedback._id,
+                                Title: item.Module.Feedback.Title,
+                                ClassId: item.Class._id,
+                                ClassName: item.Class.ClassName,
+                                ModuleId: item.Module._id,
+                                ModuleName: item.Module.ModuleName,
+                                EndTime: item.Module.FeedbackEndTime,
+                                AdminId: item.Module.Feedback.AdminId._id,
+                                AdminName: item.Module.Feedback.AdminId.Name
+                            }
+                        })
+
+                        break
+
+                    default: 
+                        break
                 }
+                
 
                 return res
                 .json({
