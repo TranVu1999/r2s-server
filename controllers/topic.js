@@ -1,5 +1,6 @@
 const Admin = require('./../models/Admin')
 const Topic = require('./../models/Topic')
+const Question = require('./../models/Question')
 
 const showErrorSystem = function(res, error){
     console.log(error)
@@ -68,8 +69,30 @@ module.exports = {
             const account = await Admin.findById(accountId)
 
             if(account){
+                let listTopic = []
+                const listTopic_db = await Topic.find().lean()
+                const listQuestion_db = await Question.find({isDeleted: false}).lean()
 
-                const listTopic = await Topic.find()
+                for(let topicItem of listTopic_db){
+                    let topic = {
+                        Id: topicItem._id,
+                        TopicName: topicItem.TopicName,
+                        listQuestion: []
+                    }
+
+                    for(let questionItem of listQuestion_db){
+                        if(topic.Id.toString() === questionItem.TopicId.toString()){
+                            let question = {
+                                Id: questionItem._id,
+                                QuestionContent: questionItem.QuestionContent
+                            }
+
+                            topic.listQuestion.push(question)
+                        }
+                    }
+
+                    listTopic.push(topic)
+                }
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,
