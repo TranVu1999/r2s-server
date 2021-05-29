@@ -8,6 +8,7 @@ const Question = require('./../models/Question')
 const TypeFeedback = require('./../models/TypeFeedback')
 const Feedback_Question = require('./../models/Feedback_Question')
 const { findById, findByIdAndUpdate } = require('./../models/Admin')
+const Topic = require('../models/Topic')
 
 
 const showErrorSystem = function(res, error){
@@ -372,7 +373,6 @@ module.exports = {
                     TypeFeedbackName: feedback_db.TypeFeedbackId.TypeName
                 }
 
-
                 const listFeedback_Question_db = await Feedback_Question.find({
                     FeedbackId: id
                 }).populate({
@@ -392,8 +392,33 @@ module.exports = {
                     }
                 })
 
+                // let list topic
+                let listTopic = []
+                for(let questionItem of listQuestion){
+
+                    let lengthTopic = listTopic.length
+                    let index = -1
+                    for(let i = 0; i < lengthTopic; i++){
+                        if(listTopic[i].Id.toString() === questionItem.TopicId.toString()){
+                            index = i;
+                            break
+                        }
+                    }
+
+                    if(index === -1){
+                        let topic = {
+                            Id: questionItem.TopicId,
+                            TopicName: questionItem.TopicName,
+                            listQuestion: []
+                        }
+                        listTopic.push(topic)
+                    }else{
+                        listTopic[index].listQuestion.push(questionItem)
+                    }
+                }
+
                 // set list question
-                feedback["listQuestion"] = listQuestion
+                feedback["listTopic"] = listTopic
                 
 
                 let listTime_db = await Module.find({Feedback: id}).lean()
