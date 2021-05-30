@@ -33,4 +33,10 @@ router.get('/', authController.getListAccount)
 // @access Private
 router.get('/getAdmin', verifyToken, authController.getListAdmin)
 
+
+// @route GET api/auth/getTrainer
+// @desc get list acoount of trainer
+// @access Private
+router.get('/getTrainer', verifyToken, authController.getListTrainer)
+
 module.exports = router;

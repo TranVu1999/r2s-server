@@ -246,7 +246,7 @@ module.exports = {
      * Get list admin
     */
     getListAdmin: async function(req, res){
-        const {accountId, typeUser} = req
+        const {accountId} = req
 
         try {
             const admin = await Admin.findById(accountId)
@@ -268,6 +268,55 @@ module.exports = {
                     success: true, 
                     message: "Your action is done successfully",
                     listAdmin
+                })
+            }
+
+            return res
+            .status(400)
+            .json({
+                success: false, 
+                message: "This account is not found"
+            })
+            
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
+     * Get list trainer
+    */
+    getListTrainer: async function(req, res){
+        const {accountId} = req
+
+        try {
+            const admin = await Admin.findById(accountId)
+
+            if(admin){
+                let listTrainer = await Trainer.find()
+                
+                listTrainer = listTrainer.map(item =>{
+                    return {
+                        Id: item._id,
+                        UserName: item.UserName,
+                        Password: "",
+                        Name: item.Name,
+                        Email: item.Email,
+                        Phone: item.Phone,
+                        Address: item.Address,
+                        IsReceiveNotification: item.IsReceiveNotification,
+                        ResetPasswordCode: item.ResetPasswordCode,
+                        ActivationCode: item.ActivationCode,
+                        isActive: item.isActive
+                    }
+                })
+
+                return res.json({
+                    success: true, 
+                    message: "Your action is done successfully",
+                    listTrainer
                 })
             }
 
