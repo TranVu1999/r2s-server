@@ -9,6 +9,7 @@ const TypeFeedback = require('./../models/TypeFeedback')
 const Feedback_Question = require('./../models/Feedback_Question')
 const { findById, findByIdAndUpdate } = require('./../models/Admin')
 const Topic = require('../models/Topic')
+const Answer = require('../models/Answer')
 
 
 const showErrorSystem = function(res, error){
@@ -278,7 +279,23 @@ module.exports = {
                             }
                         }
 
-                        listFeedback = listFeedback.map(item =>{
+
+                        const listAnswer = await Answer.find().lean()
+                        const lengthAnswer = listAnswer.length
+
+                        listFeedback = listFeedback.map(item => {
+                            let checkAnswer = null
+
+                            for(let i = 0; i < lengthAnswer; i++){
+                                if(
+                                    listAnswer[i].Class.toString() === item.Class._id.toString() &&
+                                    listAnswer[i].Module.toString() === item.Module._id.toString() &&
+                                    listAnswer[i].Trainee.toString() === accountId
+                                ){
+                                    checkAnswer = {...listAnswer[i]}
+                                }
+                            }
+
                             return {
                                 Id: item.Module.Feedback._id,
                                 Title: item.Module.Feedback.Title,
@@ -288,7 +305,8 @@ module.exports = {
                                 ModuleName: item.Module.ModuleName,
                                 EndTime: item.Module.FeedbackEndTime,
                                 AdminId: item.Module.Feedback.AdminId._id,
-                                AdminName: item.Module.Feedback.AdminId.Name
+                                AdminName: item.Module.Feedback.AdminId.Name,
+                                isCompleted: checkAnswer !== null
                             }
                         })
 
