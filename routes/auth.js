@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../middleware/auth');
 
 const authController = require('./../controllers/auth')
 
@@ -26,5 +27,10 @@ router.post('/login', authController.login)
 // @desc get list acoount
 // @access Public
 router.get('/', authController.getListAccount)
+
+// @route GET api/auth/getAdmin
+// @desc get list acoount of admin
+// @access Private
+router.get('/getAdmin', verifyToken, authController.getListAdmin)
 
 module.exports = router;

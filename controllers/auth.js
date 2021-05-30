@@ -242,5 +242,48 @@ module.exports = {
     },
 
 
+    /**
+     * Get list admin
+    */
+    getListAdmin: async function(req, res){
+        const {accountId, typeUser} = req
+
+        try {
+            const admin = await Admin.findById(accountId)
+
+            if(admin){
+                let listAdmin = await Admin.find()
+                
+                listAdmin = listAdmin.map(item =>{
+                    return {
+                        Id: item._id,
+                        UserName: item.UserName,
+                        Password: "",
+                        Name: item.Name,
+                        Email: item.Email
+                    }
+                })
+
+                return res.json({
+                    success: true, 
+                    message: "Your action is done successfully",
+                    listAdmin
+                })
+            }
+
+            return res
+            .status(400)
+            .json({
+                success: false, 
+                message: "This account is not found"
+            })
+            
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
 
 }
