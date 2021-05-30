@@ -9,22 +9,22 @@ const AnswerSchema = new Schema({
 
     Class: {
         type: Schema.Types.ObjectId,
-        ref: Class
+        ref: 'Class'
     },
 
     Module: {
         type: Schema.Types.ObjectId,
-        ref: Module
+        ref: 'Module'
     },
 
     Trainee: {
         type: Schema.Types.ObjectId,
-        ref: Trainee
+        ref: 'Trainee'
     },
 
     Question: {
         type: Schema.Types.ObjectId,
-        ref: Question
+        ref: 'Question'
     }
 });
 

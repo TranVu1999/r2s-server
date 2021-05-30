@@ -403,3 +403,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2M
 
 
 
+// ================== ANSWER ==================
+
+# Add new anwser
+###
+POST http://localhost:8080/api/answer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI2MGE3MjRjMTk1N2FhNjBjN2M3YzNlYTIiLCJ0eXBlVXNlciI6InRyYWluZWUiLCJpYXQiOjE2MjE4NjAwNjB9.2fpi3Fs7bYl233OHKppcDVZwmcVz3aG1TubOh_ZWj9E
+
+{
+    "listAnswer": [
+        {
+            "ClassId": "60a75ccbec1f7025c8d2fef9",
+            "ModuleId": "60aa6bb5fdd5941f88e6aa61",
+            "QuestionId": "60a8eef3a86b7c42384e8bef",
+            "Value": 100
+        }
+    ]
+}

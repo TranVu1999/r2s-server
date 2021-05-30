@@ -11,6 +11,7 @@ const feedbackRouter = require('./routes/feedback');
 const moduleRouter = require('./routes/module');
 const assignmentRouter = require('./routes/assignment');
 const enrollmentRouter = require('./routes/enrollment');
+const answerRouter = require('./routes/answer');
 
 const connectDB = async () =>{
     try {
@@ -43,6 +44,7 @@ app.use('/api/feedback', feedbackRouter);
 app.use('/api/module', moduleRouter);
 app.use('/api/assignment', assignmentRouter);
 app.use('/api/enrollment', enrollmentRouter);
+app.use('/api/answer', answerRouter);
 
 // const POST = process.env.HOST || 5000;
 // app.listen(POST, () => console.log("Server started on port 5000"))
