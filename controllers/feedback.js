@@ -251,6 +251,18 @@ module.exports = {
                                 }
                             }
                         }
+
+                        listFeedback = listFeedback.map(item =>{
+                            return {
+                                Id: item._id,
+                                isDeleted: item.isDeleted,
+                                AdminId: item.AdminId,
+                                AdminName: item.AdminName,
+                                TypeFeedbackId: item.TypeFeedbackId,
+                                Title: item.Title,
+
+                            }
+                        })
                         break
                     
                     case "trainee":
