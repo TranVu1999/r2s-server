@@ -50,8 +50,16 @@ const splitTimeString = str => {
 
 const compareTime = (timeA, timeB) =>{
     if(timeB.year < timeA.year) return 0
-    if(timeB.month < timeA.month) return 0
-    if(timeB.date < timeA.date) return 0
+
+    if(timeB.year === timeA.year){
+        if(timeB.month < timeA.month) return 0
+
+        if(timeB.month === timeA.month){
+            if(timeB.date < timeA.date) return 0
+        }
+
+        return 1
+    }
 
     return 1
 }
@@ -80,14 +88,23 @@ module.exports = {
             const d = new Date()
             const now = {
                 date: d.getDate(), 
-                month: d.getMonth(), 
+                month: d.getMonth() + 1, 
                 year: d.getFullYear()
             }
 
             let start = splitTimeString(StartTime)
             let end = splitTimeString(EndTime)
 
+            console.log({now})
+            console.log({start})
+            console.log({end})
+
+            
+
             if(start && end){
+                console.log(compareTime(now, start))
+                console.log(compareTime(start, end))
+
                 if(compareTime(now, start) && compareTime(start, end) && Capacity > 0){
                     const newClass = new Class({
                         ClassName,
