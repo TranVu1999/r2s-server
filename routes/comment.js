@@ -12,4 +12,12 @@ const commentController = require('../controllers/comment')
 router.post('/', verifyToken, commentController.add)
 
 
+// ================= GET ==================
+
+// @route GET api/comment
+// @desc get list comment by trainee
+// @access Private
+router.get('/', verifyToken, commentController.getListCommentByTrainee)
+
+
 module.exports = router;

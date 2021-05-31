@@ -87,6 +87,54 @@ module.exports = {
         } catch (error) {
             showErrorSystem(res, error)
         }
+    },
+
+
+    /**
+     * get list comment by trainee
+     */
+    getListCommentByTrainee: async function(req, res){
+        try {
+            const {accountId} = req
+            
+            const account = await Trainee.findById(accountId);
+
+            if(!account){
+                return res
+                .status(400)
+                .json({
+                    isSuccess: false,
+                    message: "This account is not found"
+                })
+            }
+
+            let listComment = await TraineeComment.find({Trainee: accountId})
+            .populate("Class")
+            .populate("Module")
+            
+            listComment = listComment.map(item =>{
+                return {
+                    Id: item._id,
+                    Comment: item.Comment,
+                    ClassId: item.Class._id,
+                    ClassName: item.Class.ClassName,
+                    ModuleId: item.Module._id,
+                    ModuleName: item.Module.ModuleName
+                }
+            })
+
+            return res
+                .status(200)
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    listComment
+                })
+
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
     }
 
 }
