@@ -65,7 +65,7 @@ module.exports = {
      * Add new module
      */
     add: async function(req, res){
-        const {
+        let {
             ModuleName, 
             AdminId, 
             FeedbackId, 
@@ -122,6 +122,7 @@ module.exports = {
                 }
 
                 // check admin
+                AdminId = AdminId !== "current admin" ? AdminId : accountId
                 const admin = await Admin.findById(AdminId)
                 if(!admin){
                     flag = false
