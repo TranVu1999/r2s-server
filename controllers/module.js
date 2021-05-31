@@ -136,7 +136,7 @@ module.exports = {
 
 
                 if(flag){
-                    const module = new Module({
+                    let module = new Module({
                         Admin: AdminId,
                         ModuleName,
                         StartTime,
@@ -147,6 +147,19 @@ module.exports = {
                     })
 
                     await module.save()
+
+                    module = {
+                        Id: module._id,
+                        StartTime: module.StartTime,
+                        EndTime: module.EndTime,
+                        isDeleted: module.isDeleted,
+                        FeedbackStartTime: module.FeedbackStartTime,
+                        FeedbackEndTime: module.FeedbackEndTime,
+                        AdminId: module.Admin,
+                        ModuleName: module.ModuleName,
+                        FeedbackId: module.Feedback
+                        
+                    }
 
                     return res
                     .json({
