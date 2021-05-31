@@ -7,7 +7,7 @@ const Question = require('./../models/Question')
 const Answer = require('./../models/Answer')
 const Enrollment = require('./../models/Enrollment')
 const Assignment = require('./../models/Assignment')
-const TraineeComment = require('./../models/TraineeComment')
+const TraineeComment = require('./../models/Trainee_Comment')
 
 const showErrorSystem = function(res, error){
     console.log(error)
@@ -58,12 +58,21 @@ module.exports = {
 
                 await newComment.save()
 
+
+                let comment = {
+                    Id: newComment._id,
+                    Comment: newComment.Comment,
+                    ClassId: newComment.Class,
+                    ModuleId: newComment.Module,
+                    TraineeId: newComment.Trainee
+                }
+
                 return res
                 .status(200)
                 .json({
                     isSuccess: true,
                     message: "Your action is done successfully",
-                    comment: newComment
+                    comment
                 })
             }
 
