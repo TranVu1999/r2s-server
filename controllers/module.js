@@ -53,8 +53,16 @@ const splitTimeString = str => {
 
 const compareTime = (timeA, timeB) =>{
     if(timeB.year < timeA.year) return 0
-    if(timeB.month < timeA.month) return 0
-    if(timeB.date < timeA.date) return 0
+
+    if(timeB.year === timeA.year){
+        if(timeB.month < timeA.month) return 0
+
+        if(timeB.month === timeA.month){
+            if(timeB.date < timeA.date) return 0
+        }
+
+        return 1
+    }
 
     return 1
 }
