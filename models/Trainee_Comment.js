@@ -10,18 +10,18 @@ const Trainee_CommentSchema = new Schema({
 
     Class: {
         type: Schema.Types.ObjectId,
-        ref: Class
+        ref: 'Class'
     },
 
     Module: {
         type: Schema.Types.ObjectId,
-        ref: Module
+        ref: 'Module'
     },
 
     Trainee: {
         type: Schema.Types.ObjectId,
-        ref: Trainee
+        ref: 'Trainee'
     },
 });
 
-module.exports = mongoose.model("Trainee_Comment", Trainee_CommentSchema)
+module.exports = mongoose.model("TraineeComment", Trainee_CommentSchema)

@@ -64,7 +64,7 @@ module.exports = {
                                 Value: (answerItem.Value > 4 && answerItem.Value) || (!answerItem.Value) < 0 ? 4 : answerItem.Value,
                                 Class: answerItem.ClassId,
                                 Module: answerItem.ModuleId,
-                                Question: answerItem.Question,
+                                Question: answerItem.QuestionId,
                                 Trainee: accountId
                             })
 
