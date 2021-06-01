@@ -7,6 +7,7 @@ const Class = require('./../models/Class')
 const Module = require('../models/Module')
 const Assignment = require('../models/Assignment')
 const Enrollment = require('../models/Enrollment')
+const TraineeAssignment = require('../models/Trainee_Assignment')
 
 const showErrorSystem = function(res, error){
     console.log(error)
@@ -465,6 +466,9 @@ module.exports = {
 
 
                 case "trainee":
+                    const listTraineeAssignment = await TraineeAssignment.find({Trainee: accountId}).lean()
+                    
+
                     listModule_db = await Assignment.find()
                     .populate("Class", "_id")
                     .populate({
@@ -477,13 +481,9 @@ module.exports = {
                     })
                     .lean()
 
-                    const listClass = await Enrollment.find({Trainee: accountId}).lean()
-
                     for(let modItem of listModule_db){
-                        for(let classItem of listClass){
-                            if(modItem.Class._id.toString() === classItem.Class.toString()){
-                                console.log(modItem.Module.Admin)
-
+                        for(let assignmentItem of listTraineeAssignment){
+                            if(modItem.RegistrationCode === assignmentItem.RegistrationCode){
                                 let moduleTemp = {
                                     Id: modItem.Module._id,
                                     StartTime: modItem.Module.StartTime,
@@ -495,10 +495,9 @@ module.exports = {
                                     AdminId: modItem.Module.Admin._id,
                                     ModuleName: modItem.Module.ModuleName,
                                     FeedbackId: modItem.Module.Feedback._id,
-                                    FeedbackTitle: modItem.Module.Feedback.Title
+                                    FeedbackTitle: modItem.Module.Feedback.Title,
+                                    RegistrationCode: modItem.RegistrationCode
                                 }
-
-                                
 
                                 listModule.push(moduleTemp)
                             }

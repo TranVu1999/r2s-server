@@ -10,7 +10,7 @@ const Trainee_AssignmentSchema = new Schema({
 
     Trainee: {
         type: Schema.Types.ObjectId,
-        ref: Trainee
+        ref: 'Trainee'
     },
 });
 
