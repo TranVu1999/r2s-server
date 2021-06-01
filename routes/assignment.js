@@ -30,5 +30,13 @@ router.put('/:id', verifyToken, assignmentController.update)
 router.get('/', verifyToken, assignmentController.getListAssignment)
 
 
+// ================= DELETE ==================
+
+// @route DELETE api/assignment
+// @desc delete assignment
+// @access Private
+router.delete('/:id', verifyToken, assignmentController.delete)
+
+
 
 module.exports = router;

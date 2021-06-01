@@ -251,5 +251,59 @@ module.exports = {
         }
     },
 
+
+    /**
+     * Delete asignment
+     */
+     delete: async function(req, res){
+        const {id} = req.params
+
+        try {
+            const {accountId} = req
+            let account = null
+            
+            // check account
+            account = await Admin.findById(accountId)
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            let assignment = null
+            const deleteAssignment = await Assignment.findByIdAndRemove(id)
+
+            if(deleteAssignment){
+                assignment = {
+                    ClassId: deleteAssignment.Class,
+                    ModuleId: deleteAssignment.Module,
+                    TrainerId: deleteAssignment.Trainer,
+                    RegistrationCode: deleteAssignment.RegistrationCode
+                }
+                
+                return res
+                .json({
+                    isSuccess: true,
+                    message: "Your action is done successfully",
+                    assignment
+                })
+            }
+
+            return res
+                .json({
+                    isSuccess: false,
+                    message: "Can not delete this assignment"
+                })
+
+            
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
     
 }
