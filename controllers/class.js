@@ -95,15 +95,9 @@ module.exports = {
             let start = splitTimeString(StartTime)
             let end = splitTimeString(EndTime)
 
-            console.log({now})
-            console.log({start})
-            console.log({end})
-
             
 
             if(start && end){
-                console.log(compareTime(now, start))
-                console.log(compareTime(start, end))
 
                 if(compareTime(now, start) && compareTime(start, end) && Capacity > 0){
                     const newClass = new Class({

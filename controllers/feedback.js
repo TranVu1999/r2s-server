@@ -10,6 +10,7 @@ const Feedback_Question = require('./../models/Feedback_Question')
 const { findById, findByIdAndUpdate } = require('./../models/Admin')
 const Topic = require('../models/Topic')
 const Answer = require('../models/Answer')
+const TraineeAssignment = require('../models/Trainee_Assignment')
 
 
 const showErrorSystem = function(res, error){
@@ -266,7 +267,7 @@ module.exports = {
                         break
                     
                     case "trainee":
-                        let listFeedback_db = await Assignment.find()
+                        let listAssignment_db = await Assignment.find()
                         .populate("Class")
                         .populate({
                             path: "Module",
@@ -281,12 +282,12 @@ module.exports = {
                             }
                         })
 
-                        const listClassOfMember = await Enrollment.find({Trainee: accountId})
+                        const listTraineeAssignment = await TraineeAssignment.find({Trainee: accountId})
 
-                        for(let classItem of listClassOfMember){
-                            for(feedbackItem of listFeedback_db){
-                                if(classItem.Class.toString() === feedbackItem.Class._id.toString()){
-                                    listFeedback.push(feedbackItem)
+                        for(let traineeAsignmentItem of listTraineeAssignment){
+                            for(assignmentItem of listAssignment_db){
+                                if(traineeAsignmentItem.RegistrationCode === assignmentItem.RegistrationCode){
+                                    listFeedback.push(assignmentItem)
                                 }
                             }
                         }
