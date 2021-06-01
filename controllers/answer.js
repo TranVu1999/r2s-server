@@ -113,17 +113,28 @@ module.exports = {
                 })
             }
             
-            let listAnswer = await Answer.find().lean()
+            let listAnswer = []
+            let listAnswer_db = await Answer.find().lean()
+            let listQuestion_db = await Question.find()
+            .populate("TopicId").lean()
 
-            listAnswer = listAnswer.map(item =>{
-                return {
-                    Id: item._id,
-                    ClassId: item.Class,
-                    ModuleId: item.Module,
-                    QuestionId: item.Question,
-                    Value: item.Value
+            for(let answerItem of listAnswer_db){
+                for(let questionItem of listQuestion_db){
+                    if(questionItem._id.toString() === answerItem.Question.toString()){
+                        let answer = {
+                            Id: answerItem._id,
+                            ClassId: answerItem.Class,
+                            ModuleId: answerItem.Module,
+                            QuestionId: answerItem.Question,
+                            Value: answerItem.Value,
+                            TopicId: questionItem.TopicId._id,
+                            TopicName: questionItem.TopicId.TopicName
+                        }
+
+                        listAnswer.push(answer)
+                    }
                 }
-            })
+            }
             
             return res
                 .json({
