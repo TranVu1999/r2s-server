@@ -1,6 +1,7 @@
 const Admin = require('./../models/Admin')
 const Topic = require('./../models/Topic')
 const Question = require('./../models/Question')
+const FeedbackQuestion = require('./../models/Feedback_Question')
 
 const showErrorSystem = function(res, error){
     console.log(error)
@@ -112,16 +113,26 @@ module.exports = {
                
                 let listQuestion = await Question.find({isDeleted: false})
                 .populate("TopicId")
-
                 listQuestion = listQuestion.map(item =>{
                     return {
                         Id: item._id,
                         TopicId: item.TopicId._id,
                         TopicName: item.TopicId.TopicName,
                         QuestionContent: item.QuestionContent,
-                        isDeleted: item.isDeleted
+                        isDeleted: item.isDeleted,
+                        isUse: false
                     }
                 })
+
+                let listQuestionFeedback = await FeedbackQuestion.find().lean()
+                for(let questionItem of listQuestion){
+                    for(let questionFeedbackItem of listQuestionFeedback){
+                        if(questionFeedbackItem.QuestionId.toString() === questionItem.Id.toString()){
+                            questionItem.isUse = true
+                            break
+                        }
+                    }
+                }
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,
@@ -144,7 +155,7 @@ module.exports = {
 
 
     /**
-     * Get list question
+     * Get detail question
      */
     getDetail: async function(req, res){
         const {accountId} = req
@@ -206,9 +217,20 @@ module.exports = {
                         TopicId: item.TopicId._id,
                         TopicName: item.TopicId.TopicName,
                         QuestionContent: item.QuestionContent,
-                        isDeleted: item.isDeleted
+                        isDeleted: item.isDeleted,
+                        isUse: false
                     }
                 })
+
+                let listQuestionFeedback = await FeedbackQuestion.find().lean()
+                for(let questionItem of listQuestion){
+                    for(let questionFeedbackItem of listQuestionFeedback){
+                        if(questionFeedbackItem.QuestionId.toString() === questionItem.Id.toString()){
+                            questionItem.isUse = true
+                            break
+                        }
+                    }
+                }
 
                 return showErrorClient(res, 200, {
                     isSuccess: true,

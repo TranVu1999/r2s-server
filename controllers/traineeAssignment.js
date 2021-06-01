@@ -82,7 +82,7 @@ module.exports = {
                 return res
                 .status(400)
                 .json({
-                    isSuccess: false,
+                    success: false,
                     message: "This account is not found"
                 })
             }
