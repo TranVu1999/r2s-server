@@ -91,6 +91,53 @@ module.exports = {
         } catch (error) {
             showErrorSystem(res, error)
         }
-    }
+    },
+
+
+    /**
+     * get list comment
+     */
+    getListComment: async function(req, res){
+
+        try {
+            const {accountId} = req
+            
+            const account = await Admin.findById(accountId);
+
+            if(!account){
+                return res
+                .status(400)
+                .json({
+                    isSuccess: false,
+                    message: "This account is not found"
+                })
+            }
+            
+            let listAnswer = await Answer.find().lean()
+
+            listAnswer = listAnswer.map(item =>{
+                return {
+                    Id: item._id,
+                    ClassId: item.Class,
+                    ModuleId: item.Module,
+                    QuestionId: item.Question,
+                    Value: item.Value
+                }
+            })
+            
+            return res
+                .status(400)
+                .json({
+                    isSuccess: true,
+                    message: "Can not add this answer",
+                    listAnswer
+                })
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
 
 }

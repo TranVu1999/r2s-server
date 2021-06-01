@@ -11,5 +11,12 @@ const answerController = require('./../controllers/answer')
 // @access Private
 router.post('/', verifyToken, answerController.add)
 
+// ================= GET ==================
+
+// @route POST api/answer
+// @desc add new answer
+// @access Private
+router.get('/', verifyToken, answerController.getListComment)
+
 
 module.exports = router;
