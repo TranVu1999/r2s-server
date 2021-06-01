@@ -126,7 +126,6 @@ module.exports = {
             })
             
             return res
-                .status(400)
                 .json({
                     isSuccess: true,
                     message: "Can not add this answer",
