@@ -12,6 +12,12 @@ const assignmentController = require('./../controllers/assignment')
 router.post('/', verifyToken, assignmentController.add)
 
 
+// @route POST api/assignment/filter
+// @desc add new assignment
+// @access Private
+router.post('/filter', verifyToken, assignmentController.filter)
+
+
 
 // ================= PUT ==================
 

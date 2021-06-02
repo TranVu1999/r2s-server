@@ -253,6 +253,122 @@ module.exports = {
 
 
     /**
+     * Get list assignment by key search
+     */
+     filter: async function(req, res){
+
+        try {
+            const {accountId, typeUser} = req
+            const {keySearch} = req.body
+            let account = null
+            
+            // check account
+            switch(typeUser){
+                case "admin":
+                    account = await Admin.findById(accountId)
+                    break
+
+                case "trainer":
+                    account = await Trainer.findById(accountId)
+                    break
+
+                case "trainee":
+                    account = await Trainee.findById(accountId)
+                    break
+                default:
+                    break
+            }
+
+            if(!account){
+                return showErrorClient(res, 400, {
+                    isSuccess: false,
+                    message: "This account is not found"
+                }) 
+            }
+
+            let listAssignment = []
+
+            switch(typeUser){
+                case "admin":
+                    listAssignment = await Assignment.find()
+                    .populate("Class")
+                    .populate("Module")
+                    .populate("Trainer")
+
+
+                    listAssignment = listAssignment.map(item =>{
+                        return {
+                            Id: item._id,
+                            ClassId: item.Class._id,
+                            ClassName: item.Class.ClassName,
+                            ModuleId: item.Module._id,
+                            ModuleName: item.Module.ModuleName,
+                            TrainerId: item.Trainer._id,
+                            TrainerName: item.Trainer.UserName,
+                            RegistrationCode: item.RegistrationCode
+                        }
+                    })
+
+                    listAssignment = listAssignment.filter(item =>{
+                        return (
+                            item.ModuleName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.ClassName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.TrainerName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.RegistrationCode.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1
+                        )
+                    })
+
+                    break
+
+                case "trainer":
+                    listAssignment = await Assignment.find({Trainer: accountId})
+                    .populate("Class")
+                    .populate("Module")
+                    .populate("Trainer")
+
+
+                    listAssignment = listAssignment.map(item =>{
+                        return {
+                            Id: item._id,
+                            ClassId: item.Class._id,
+                            ClassName: item.Class.ClassName,
+                            ModuleId: item.Module._id,
+                            ModuleName: item.Module.ModuleName,
+                            TrainerId: item.Trainer._id,
+                            TrainerName: item.Trainer.UserName,
+                            RegistrationCode: item.RegistrationCode
+                        }
+                    })
+
+                    listAssignment = listAssignment.filter(item =>{
+                        return (
+                            item.ModuleName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.ClassName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.TrainerName.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1 ||
+                            item.RegistrationCode.toLowerCase().indexOf(keySearch.toLowerCase()) !== -1
+                        )
+                    })
+                    break
+                default:
+                    break
+            }
+
+            
+            return res
+            .json({
+                isSuccess: true,
+                message: "Your action is done successfully",
+                listAssignment
+            })
+               
+
+        } catch (error) {
+            showErrorSystem(res, error)
+        }
+    },
+
+
+    /**
      * Delete asignment
      */
      delete: async function(req, res){
