@@ -131,7 +131,7 @@ module.exports = {
 
 
     /**
-     * Add new class
+     * Get list class
      */
     getList: async function(req, res){
         const {accountId, typeUser} = req
@@ -416,6 +416,15 @@ module.exports = {
                 class_res = await Class.findById(id).lean()
                 listTrainee = await Enrollment.find({Class: id})
                 .populate("Trainee")
+
+                class_res= {
+                    Id: class_res._id,
+                    ClassName: class_res.ClassName,
+                    Capacity: class_res.Capacity,
+                    StartTime: class_res.StartTime,
+                    EndTime: class_res.EndTime,
+                    isDeleted: class_res.isDeleted,
+                }
 
                 class_res["listTrainee"] = listTrainee.map(item =>{
                     return {
